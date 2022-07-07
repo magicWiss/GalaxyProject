@@ -1,5 +1,6 @@
 import os
-
+from sqlite3 import DatabaseError
+import pandas
 if __name__=="__main__":
     
     path = "../images"
@@ -18,3 +19,14 @@ if __name__=="__main__":
                 galaxys.append(file.name)
 
     print(galaxys)
+    targets=[]
+    for i in range(0,len(galaxys)):
+        targets.append(i)
+
+
+    df=pandas.DataFrame(columns=["nameImg","id"])
+    df=pandas.DataFrame(list(zip(galaxys,targets)), columns=["nameImg","id"])
+
+    print(df)
+
+
