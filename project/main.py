@@ -4,8 +4,6 @@ import pandas
 if __name__=="__main__":
     
     path = "../images"
-    # change the working directory to the path where the images are located
-    os.chdir(path)
 
     # this list holds all the image filename
     galaxys = []

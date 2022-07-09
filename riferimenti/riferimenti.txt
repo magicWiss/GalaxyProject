@@ -1,0 +1,4 @@
+https://towardsdatascience.com/galaxy-zoo-classification-with-keras-219184aff581
+https://github.com/jameslawlor/kaggle_galaxy_zoo.
+https://benanne.github.io/2014/04/05/galaxy-zoo.html
+https://www.kaggle.com/competitions/galaxy-zoo-the-galaxy-challenge/data?select=all_ones_benchmark.zip
