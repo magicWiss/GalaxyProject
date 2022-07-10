@@ -33,8 +33,8 @@ class Tree:
         self.node0=Node(0)
         self.node2=Node(2)
         self.node3=Node(3)
-        self.node43=Node(43)
-        self.node44=Node(44)
+        self.node4=Node(4)
+        self.node4=Node(4)
         self.node53=Node(53)
         self.node54=Node(54)
         self.node61=Node(61)
@@ -65,9 +65,9 @@ class Tree:
         self.node62.addChilds([self.node8])
 
         #etichetta 3
-        self.node3.addChilds([self.node43, self.node44])
+        self.node3.addChilds([self.node4])
 
-        self.node43.addChilds([self.node10])
+        self.node4.addChilds([self.node10,self.node54])
 
         self.node10.addChilds([self.node11])
 
@@ -77,8 +77,7 @@ class Tree:
         
         self.node63.addChilds([self.node8])
 
-        #etichetta 4
-        self.node44.addChilds([self.node54])
+        
         
         self.node54.addChilds([self.node64])
 
@@ -168,24 +167,23 @@ class Tree:
                 return cammino
         
         #etichetta 3
-        if (node.label==3):
-            maxIndex=self.computeAnswer(answers[5:7])    #prima risposta
+        if (node.label==3):         
+            
+            node=node.getChild(4)
+            cammino.append(node.label)
+            return self.computePath(cammino, answers, node)
+        
+        if (node.label==4):
+            maxIndex=self.computeAnswer(answers[7:9])    #prima risposta
             if maxIndex==0:
-                node=node.getChild(43)
+                node=node.getChild(10)
+                cammino.append(node.label)
+                return self.computePath(cammino, answers, node)
+            elif maxIndex==1:
+                node=node.getChild(54)
                 cammino.append(node.label)
                 return self.computePath(cammino, answers, node)
 
-            elif maxIndex==1:
-                node=node.getChild(44)
-                cammino.append(node.label)
-                return self.computePath(cammino, answers, node)
-        
-        if (node.label==43):
-            maxIndex=self.computeAnswer(answers[7:9])    #prima risposta
-            
-            node=node.getChild(10)
-            cammino.append(node.label)
-            return self.computePath(cammino, answers, node)
         
         if (node.label==10):
            
@@ -210,10 +208,8 @@ class Tree:
 
         #etichetta 4
 
-        if (node.label==44):
-            node=node.getChild(54)
-            cammino.append(node.label)
-            return self.computePath(cammino, answers, node)
+        
+            
         
         if (node.label==54):
             node=node.getChild(64)
