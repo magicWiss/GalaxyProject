@@ -233,7 +233,7 @@ class Tree:
         currentClass=Classes(id)                        #creo l'oggetto class
         path=[self.root.label]                          #il cammino iniziale ha solo il root
         self.computePath(path,answers, self.root)       #calcolo il cammino
-        print(path)
+        
 
         currentClass.cammino=path
         currentClass.setTargetValue()                   #calcolo il target associato
