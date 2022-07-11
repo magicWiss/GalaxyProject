@@ -8,14 +8,14 @@ class Classes:
         self.target=""
 
 
-        self.class0=[1]              #min nodes that are unique for the class
-        self.class1=[1,7]            #real path is (1,2,6,[8])
+        self.class0=[1]              #min nodes that are unique for the class ANORMAL
+        self.class1=[1,7]            #real path is (1,2,6,[8])  ROUNDED
         
         self.class2=[1,2,9]         #real path is (1,2,9,6,[8])
         
-        self.class3=[1,2,3,43,10]    #reqal path is (1,2,3,4,10,11,5,6,[8])
+        self.class3=[1,2,3,4,10]    #reqal path is (1,2,3,4,10,11,5,6,[8])
 
-        self.class4=[1,2,3,44,5]     #real path is (1,2,3, 4, 5,6,[8])
+        self.class4=[1,2,3,4,54]     #real path is (1,2,3, 4, 5,6,[8]) Eliptic
 
     
     #verifico che il cammino da root a foglia del nodo corrente sia intertno alla classe corrente    
