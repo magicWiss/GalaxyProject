@@ -67,7 +67,7 @@ class TestClass(unittest.TestCase):
         self.assertTrue(currentClass.target==expected)
 
 
-    def teat_class0(self):
+    def test_class0(self):
         input=[135453,0.360342,0.098619,0.541039,0,0.098619,0,0.098619,0,0.098619,0,0,0,0.098619,0.12106,0.87894,0.256566747,0.103775253,0,0,0,0.12106,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         id=str(input[0])
         answer=(list(map(str,input[1:])))
@@ -75,6 +75,17 @@ class TestClass(unittest.TestCase):
         currentClass=decisionTree.computeTargetValue(id,answer)
 
         expected="0"
+
+        self.assertTrue(currentClass.target==expected)
+
+    def test_class135842(self):
+        input=[135842,0.466424,0.513463,0.020114,0,0.513463,0.126695968,0.386767032,0.329696646,0.183766354,0,0.061419417,0.412476638,0.039566432,0,1,0.355192137,0.111231863,0,0,0,0,0,0,0,0,0,0,0,0.251263133,0.078433513,0,0,0.22121491,0,0,0,0.108481736]
+        id=str(input[0])
+        answer=(list(map(str,input[1:])))
+        decisionTree=Tree() 
+        currentClass=decisionTree.computeTargetValue(id,answer)
+
+        expected="3"
 
         self.assertTrue(currentClass.target==expected)
 
