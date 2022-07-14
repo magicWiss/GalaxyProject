@@ -1,6 +1,6 @@
-from decimal import Clamped
 
-from numpy import maximum
+
+
 from classes import Classes
 
 
@@ -88,9 +88,23 @@ class Tree:
 
 
     def computeAnswer(self, answer):
-        maximum=max(answer)
-        index=answer.index(maximum)
+        max=-1
+        index=-1
+        sub="E"
+        
+        for i in range(0, len(answer)):
+            if sub in answer[i]:
+                current=0
+            else:
+                current=float(answer[i])
+            
+            if current>=max:
+                
+                
+                    max=current
+                    index=i
         return index
+
 
 #restituisce il cammino dal root al nodo foglia 
 
@@ -108,6 +122,7 @@ class Tree:
                 node=node.getChild(2)
                 cammino.append(node.label)
             elif maxIndex==2:
+                
                 node=None
 
             return self.computePath(cammino, answers, node)

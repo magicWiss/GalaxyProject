@@ -1,0 +1,9 @@
+==========LIBRERIE DA INSTALLARE===================
+Indicando le libreire da installare per un file .py ed il relativo comando
+
+1. targetSetter.py:
+    a. unittest-> preinstallata su python
+
+
+2. targetSetter.py
+    a. csv-> preinstallata su python
