@@ -1,9 +1,19 @@
 ==========LIBRERIE DA INSTALLARE===================
 Indicando le libreire da installare per un file .py ed il relativo comando
 
+
+=========targetSetter===================
 1. targetSetter.py:
     a. unittest-> preinstallata su python
 
 
 2. targetSetter.py
     a. csv-> preinstallata su python
+
+
+===============Pre-processing=============
+
+1. thresholding.py
+    a. cv2-> pip install opencv-python
+    b. numpy-> pip install numpy
+    c. matplotlib-> pip install matplotlib

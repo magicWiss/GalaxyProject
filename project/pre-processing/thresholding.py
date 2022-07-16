@@ -29,13 +29,13 @@ class ThresholdImg:
         
         imgBlur=np.multiply(th1,img)
        
-        plt.imshow(imgBlur,cmap='gray')
+        plt.imshow(imgBlur)
         plt.show()
         return imgBlur
         
 
 if __name__=='__main__':
-    imgPath='../images/training/100335.jpg'
+    imgPath='../images/training/101501.jpg'
     img = cv.imread(imgPath)
     thres=ThresholdImg()
     img=thres.threshImageBinary(img)
