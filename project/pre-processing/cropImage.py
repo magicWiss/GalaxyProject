@@ -17,7 +17,7 @@ Stampa a video in scala grigia del risultato
 
 '''
 class CropImage:
-    def __init__():
+    def __init__(self):
         pass
 
     def cropImage(self,image):
@@ -30,5 +30,5 @@ class CropImage:
 if __name__=='__main__':
     imgPath='../images/training/100335.jpg'
     img = cv.imread(imgPath)
-    thres=CropImage()
-    img=thres.threshImageBinary(img)
+    cropper=CropImage()
+    img=cropper.cropImage(img)
