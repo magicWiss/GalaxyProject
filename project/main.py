@@ -5,13 +5,23 @@ import pandas as pd
 import sklearn as skl
 import numpy as np
 import json
-
+import time
+import sys
 
 from  pre_processing.preprocessor import Preprocessor
-
+from pre_processing.PCA import PrincipalComonentAnalysis
 
 from pre_processing.nameToImage import NameImage
 
+def printLoadingBar(count,total,suffix):
+        bar_len = 60
+        filled_len = int(round(bar_len * count / float(total)))
+
+        percents = round(100.0 * count / float(total), 1)
+        bar = '=' * filled_len + '-' * (bar_len - filled_len)
+
+        sys.stdout.write('PREPROCESSING IMAGE:IN PROGRESS: [%s] %s%s ...%s\r' % (bar, percents, '%', suffix))
+        sys.stdout.flush()  
 
 if __name__=="__main__":
     
@@ -27,9 +37,12 @@ if __name__=="__main__":
 
     #metodo di preprocessamento
     preprocessingMethod=data['preProcessingMethod']
+
+    #numero componenti nella pca
+    pcaComponents=data['PCAComponents']
     
     #========================================================
-    #=============FINE LETTURA PARAMETRI PRE_PROCESSING======
+    #=============FINE LETTURA PARAMETRI ======
     #========================================================
 
     #========================================================
@@ -80,21 +93,34 @@ if __name__=="__main__":
 
     #Preprocessamento immagini
     X_features=[]
-    print("================PREPROCESSING IMAGE:STARTING================")
+    print("=========================================================")
+    print("================PREPROCESSING IMG========================")
+    print("=========================================================")
+    print("STARTING")
     preprocesso=Preprocessor(preprocessingMethod)
     nameToImage=NameImage()
-    print("================PREPROCESSING IMAGE:IN PROGRESS================")
-  
+    
+    count=0
+    total=len(X_Training)
+    suffix=''
     for i in X_Training:
+        
+        printLoadingBar(count,total,suffix)
         
         img_path= nameToImage.nameToImage(str(i))
         
         processedImage=preprocesso.preprocess(img_path)
         X_features.append(processedImage)
+        count+=1
     
-    print("================PREPROCESSING IMAGE:COMPLETED================")
-    print("all features have been extracted")
+    print("\n\nCOMPLETED")
+  
     X_features=np.array(X_features)
+    print(X_features)
+
+    
+
+    
 
 
 

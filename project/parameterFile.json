@@ -1,6 +1,7 @@
 {   
     
     "training_perc":0.7,
-    "preProcessingMethod":1
+    "preProcessingMethod":1,
+    "PCAComponents":120
 
 }
