@@ -97,7 +97,7 @@ if __name__=="__main__":
     print("================PREPROCESSING IMG========================")
     print("=========================================================")
     print("STARTING")
-    preprocesso=Preprocessor(preprocessingMethod)
+    preprocesso=Preprocessor(preprocessingMethod,pcaComponents)
     nameToImage=NameImage()
     
     count=0

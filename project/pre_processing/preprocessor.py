@@ -8,12 +8,14 @@
 
 from pre_processing.cropImage import CropImage
 from pre_processing.thresholding import ThresholdImg
+from pre_processing.PCA import PrincipalComonentAnalysis
 import cv2 as cv
 from matplotlib import  cm, pyplot as plt
 class Preprocessor:
 
-    def __init__(self, method) -> None:
+    def __init__(self, method,pcaComponent) -> None:
       self.method=method
+      self.pcaComponent=pcaComponent
 
 #preprocessamento 1-> cropp img (424*424->160*160)+ threshold con Otsu
 #Input-> path imag
@@ -26,7 +28,7 @@ class Preprocessor:
         elif self.method==2:
             return self.preprocessTwo(imgPath)
 
-            
+
     def preprocessOne(self, imgPath):
         img = cv.imread(imgPath,0)
 
@@ -35,11 +37,16 @@ class Preprocessor:
         #thresholder
         thresh=ThresholdImg()
 
+        pca=PrincipalComonentAnalysis(self.pcaComponent)
+
         croppedImg=cropper.cropImage(img)
 
-        finalImag=thresh.threshImageOtsu(croppedImg)
+        thresedImag=thresh.threshImageOtsu(croppedImg)
 
-        return finalImag
+        finalImage=pca.reduceComponents(thresedImag)
+
+
+        return finalImage
 
     def preprocessTwo(self, imgPath):
         img = cv.imread(imgPath)
@@ -49,11 +56,15 @@ class Preprocessor:
         #thresholder
         thresh=ThresholdImg()
 
+        pca=PrincipalComonentAnalysis(self.pcaComponent)
+
         croppedImg=cropper.cropImage(img)
 
-        finalImag=thresh.threshImageBinary(croppedImg)
+        threshedImg=thresh.threshImageBinary(croppedImg)
 
-        return finalImag
+        finalImg=pca.reduceComponents(threshedImg)
+
+        return finalImg
 
 
 
