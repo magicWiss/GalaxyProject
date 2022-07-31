@@ -6,24 +6,34 @@
 
 #in ingresso riceve il path della image, in output restituisce la img preprocesssata
 
-from cropImage import CropImage
-from thresholding import ThresholdImg
+from pre_processing.cropImage import CropImage
+from pre_processing.thresholding import ThresholdImg
 import cv2 as cv
+from matplotlib import  cm, pyplot as plt
 class Preprocessor:
 
-    def __init__(self) -> None:
-      pass
+    def __init__(self, method) -> None:
+      self.method=method
 
 #preprocessamento 1-> cropp img (424*424->160*160)+ threshold con Otsu
 #Input-> path imag
 #output->img preprocessata
+
+
+    def preprocess(self, imgPath):
+        if self.method==1:
+            return self.preprocessOne(imgPath)
+        elif self.method==2:
+            return self.preprocessTwo(imgPath)
+
+            
     def preprocessOne(self, imgPath):
         img = cv.imread(imgPath,0)
 
         #cropper
         cropper=CropImage()
         #thresholder
-        thresh=ThresholdImg
+        thresh=ThresholdImg()
 
         croppedImg=cropper.cropImage(img)
 
@@ -37,7 +47,7 @@ class Preprocessor:
         #cropper
         cropper=CropImage()
         #thresholder
-        thresh=ThresholdImg
+        thresh=ThresholdImg()
 
         croppedImg=cropper.cropImage(img)
 
@@ -45,4 +55,15 @@ class Preprocessor:
 
         return finalImag
 
+
+
+'''if __name__=='__main__':
+    imgPath='../images/training/101501.jpg'
+ 
+    preProc=Preprocessor()
+    img=preProc.preprocessTwo(imgPath)
+
+    plt.imshow(img)
+    plt.show()
+'''
 

@@ -13,11 +13,11 @@ class ThresholdImg:
 
     
     def threshImageOtsu(self,img):
-        img = cv.medianBlur(img,5)
-        th3,ret3 =cv.threshold(img,0,1,cv.THRESH_BINARY+cv.THRESH_OTSU)
+        imgBlurry = cv.medianBlur(img,7)
+        th3,ret3 =cv.threshold(imgBlurry,0,1,cv.THRESH_BINARY+cv.THRESH_OTSU)
+        #imgBlur=np.multiply(ret3,np.multiply(img,imgBlurry))
         imgBlur=np.multiply(ret3,img)
-        plt.imshow(imgBlur,cmap="gray")
-        plt.show()
+        
         return imgBlur
 
     def threshImageBinary(self,img):
@@ -28,17 +28,17 @@ class ThresholdImg:
         maxrth=np.max(ret1)
         
         imgBlur=np.multiply(th1,img)
+
        
-        plt.imshow(imgBlur)
-        plt.show()
+        
         return imgBlur
         
 
 if __name__=='__main__':
     imgPath='../images/training/101501.jpg'
-    img = cv.imread(imgPath)
+    img = cv.imread(imgPath,0)
     thres=ThresholdImg()
-    img=thres.threshImageBinary(img)
+    img=thres.threshImageOtsu(img)
     
 
 

@@ -1,0 +1,3 @@
+Tutti i paramentri utilizzati per il modello sono definiti nel json file 'parameterFile.json'
+->training_perc è la percentuale di dati utilizzata per la fase di training_perc
+->preProcessingMethod è la tipologia di preprocessamento scelta per le immagini

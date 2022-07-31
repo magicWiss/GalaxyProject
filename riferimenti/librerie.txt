@@ -17,3 +17,8 @@ Indicando le libreire da installare per un file .py ed il relativo comando
     a. cv2-> pip install opencv-python
     b. numpy-> pip install numpy
     c. matplotlib-> pip install matplotlib
+
+
+===========================
+2. main.py 
+    a. pip install -U scikit-learn
