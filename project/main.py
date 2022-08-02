@@ -7,6 +7,7 @@ import numpy as np
 import json
 import time
 import sys
+from matplotlib import  cm, pyplot as plt
 
 from  pre_processing.preprocessor import Preprocessor
 from pre_processing.PCA import PrincipalComonentAnalysis
@@ -101,22 +102,38 @@ if __name__=="__main__":
     nameToImage=NameImage()
     
     count=0
-    total=len(X_Training)
+    #total=len(X_Training)
+    total=1000
+    
     suffix=''
     for i in X_Training:
         
         printLoadingBar(count,total,suffix)
         
+        print("stats variance img: ", str(i))
         img_path= nameToImage.nameToImage(str(i))
         
         processedImage=preprocesso.preprocess(img_path)
         X_features.append(processedImage)
         count+=1
+        if count==total:
+            break
+        
     
     print("\n\nCOMPLETED")
+
+    
   
-    X_features=np.array(X_features)
-    print(X_features)
+    
+    
+
+    
+
+    
+        
+    
+
+    #da aggiungere una normalizzazione delle features 
 
     
 

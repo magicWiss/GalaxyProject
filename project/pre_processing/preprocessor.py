@@ -11,6 +11,7 @@ from pre_processing.thresholding import ThresholdImg
 from pre_processing.PCA import PrincipalComonentAnalysis
 import cv2 as cv
 from matplotlib import  cm, pyplot as plt
+import numpy as np
 class Preprocessor:
 
     def __init__(self, method,pcaComponent) -> None:
@@ -41,9 +42,9 @@ class Preprocessor:
 
         croppedImg=cropper.cropImage(img)
 
-        thresedImag=thresh.threshImageOtsu(croppedImg)
+        finalImage=thresh.threshImageOtsu(croppedImg)
 
-        finalImage=pca.reduceComponents(thresedImag)
+        finalImage=pca.reduceComponentsSingleChannel(finalImage)
 
 
         return finalImage
@@ -62,7 +63,8 @@ class Preprocessor:
 
         threshedImg=thresh.threshImageBinary(croppedImg)
 
-        finalImg=pca.reduceComponents(threshedImg)
+        finalImg=pca.reduceComponentsThreeChannel(threshedImg)
+        
 
         return finalImg
 
