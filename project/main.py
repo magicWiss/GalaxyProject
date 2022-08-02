@@ -11,7 +11,7 @@ from matplotlib import  cm, pyplot as plt
 
 from  pre_processing.preprocessor import Preprocessor
 from pre_processing.PCA import PrincipalComonentAnalysis
-
+from csv import reader
 from pre_processing.nameToImage import NameImage
 
 def printLoadingBar(count,total,suffix):
@@ -103,7 +103,7 @@ if __name__=="__main__":
     
     count=0
     #total=len(X_Training)
-    total=1000
+    total=10
     
     suffix=''
     for i in X_Training:
@@ -122,8 +122,48 @@ if __name__=="__main__":
     
     print("\n\nCOMPLETED")
 
+
+    '''#da modificare
+    feat=np.array(X_features)
+    feat=feat.reshape(-1,2)
+    from sklearn.cluster import KMeans
+    from sklearn.metrics import silhouette_score
+    model_kMeans=KMeans(n_clusters=5, init='k-means++')
+
+    model_kMeans.fit(feat)
+
+    file1 = open("labels.txt", "w")
+
     
-  
+    with open('project/training_labels.csv', 'r') as my_file:
+        file_csv = reader(my_file)
+        head = next(file_csv)
+
+        # check if the file is empty or not
+        if head is not None:
+            # Iterate over each row
+            conta=0
+            for i in file_csv:
+                id=i[0]
+                label=i[1]
+                predict=model_kMeans.labels_[conta]
+                conta+=1
+                file1.write("id->"+str(id)+"   predicted->"+str(predict)+"   true->"+str(label)+ str(predict==label)+"\n")
+                if conta==len(model_kMeans.labels_):
+                    break
+
+    file1.close()
+
+                
+
+
+    #score = silhouette_score(feat, model_kMeans.labels_, metric='euclidean')
+    #
+    # Print the score
+    #
+    #print('Silhouetter Score: %.3f' % score)
+    
+  '''
     
     
 

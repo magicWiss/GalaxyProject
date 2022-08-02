@@ -11,6 +11,7 @@ from pre_processing.thresholding import ThresholdImg
 from pre_processing.PCA import PrincipalComonentAnalysis
 import cv2 as cv
 from matplotlib import  cm, pyplot as plt
+from pre_processing.flatternImage import FlatternImage
 import numpy as np
 class Preprocessor:
 
@@ -34,36 +35,71 @@ class Preprocessor:
         img = cv.imread(imgPath,0)
 
         #cropper
+        img=np.array(img)
         cropper=CropImage()
         #thresholder
         thresh=ThresholdImg()
 
+        flatter=FlatternImage(chanal=1)
+        #flatternImage
+        
+
         pca=PrincipalComonentAnalysis(self.pcaComponent)
 
-        croppedImg=cropper.cropImage(img)
+        #crop image
+        croppedImg=np.array(cropper.cropImage(img))
+        print("Dimensione dopo crop:", croppedImg.shape)
 
-        finalImage=thresh.threshImageOtsu(croppedImg)
+        #delete bg
+        thresholdImage=np.array(thresh.threshImageOtsu(croppedImg))
 
-        finalImage=pca.reduceComponentsSingleChannel(finalImage)
+        print("Dimensioni pre flattering:",thresholdImage.shape)
 
+        #vectorize
+        flattedImage=np.array(flatter.flatterImage(thresholdImage))
 
-        return finalImage
+        print("Dimensione dopo flattering:",flattedImage.shape)
+
+        finalImg=np.array(pca.reduceComponents(flattedImage))
+
+        print("Dimensione finale:",finalImg.shape)
+        
+
+        return finalImg
 
     def preprocessTwo(self, imgPath):
         img = cv.imread(imgPath)
 
+        
         #cropper
+        img=np.array(img)
         cropper=CropImage()
         #thresholder
         thresh=ThresholdImg()
 
+        flatter=FlatternImage(chanal=3)
+        #flatternImage
+        
+
         pca=PrincipalComonentAnalysis(self.pcaComponent)
 
-        croppedImg=cropper.cropImage(img)
+        #crop image
+        croppedImg=np.array(cropper.cropImage(img))
+        print("Dimensione dopo crop:", croppedImg.shape)
 
-        threshedImg=thresh.threshImageBinary(croppedImg)
+        #delete bg
+        thresholdImage=np.array(thresh.threshImageBinary(croppedImg))
 
-        finalImg=pca.reduceComponentsThreeChannel(threshedImg)
+        print("Dimensioni pre flattering:",thresholdImage.shape)
+
+        #vectorize
+        flattedImage=np.array(flatter.flatterImage(thresholdImage))
+
+        print("Dimensione dopo flattering:",flattedImage.shape)
+
+        finalImg=np.array(pca.reduceComponents(flattedImage))
+
+        print("Dimensione finale:",finalImg.shape)
         
 
         return finalImg
