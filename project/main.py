@@ -13,6 +13,8 @@ from  pre_processing.preprocessor import Preprocessor
 from pre_processing.PCA import PrincipalComonentAnalysis
 from csv import reader
 from pre_processing.nameToImage import NameImage
+from classes.pattern import Pattern
+from classes.csvWriter import CSVwriter
 
 def printLoadingBar(count,total,suffix):
         bar_len = 60
@@ -23,6 +25,44 @@ def printLoadingBar(count,total,suffix):
 
         sys.stdout.write('PREPROCESSING IMAGE:IN PROGRESS: [%s] %s%s ...%s\r' % (bar, percents, '%', suffix))
         sys.stdout.flush()  
+
+
+def preprocess(preprocessingMethod,pcaComponents,X_training,Y_training):
+    #Preprocessamento immagini
+    X_features=[]
+    print("=========================================================")
+    print("================PREPROCESSING IMG========================")
+    print("=========================================================")
+    print("STARTING")
+    preprocesso=Preprocessor(preprocessingMethod,pcaComponents)     #per il preprocessamento
+    nameToImage=NameImage()                                         #per la conversione id img a pattern completo
+   
+    
+    count=0
+    total=len(X_Training)
+    
+    
+    suffix=''
+    for i in X_Training:
+        
+        printLoadingBar(count,total,suffix)
+        
+        
+        img_path= nameToImage.nameToImage(str(i))       #acquisisco il nome completo della immagine
+        
+        processedImage=preprocesso.preprocess(img_path) #preprocesso l'immagine e ricavo il vettore delle features
+
+        label=Y_Training[count]                         #acqusisco il label [etichetta] associata
+
+        pattern=Pattern(id=str(i),fullPath=img_path,features=processedImage, label=label)
+
+
+        X_features.append(pattern)
+        count+=1
+        
+        
+    
+    print("\n\nPREPROCESSING COMPLETED")
 
 if __name__=="__main__":
     
@@ -79,91 +119,35 @@ if __name__=="__main__":
     #==============SUDDIVISIONE TRAINING E TEST SET===============
     #=============================================================
     #Training id
-    X_Training=training_data['imageId']
+    X_Training=np.array(training_data['imageId'])
     #training labels
-    Y_Training=training_data['label']
+    Y_Training=np.array(training_data['label'])
 
     #Test id
-    X_Test=test_data['imageId']
+    X_Test=np.array(test_data['imageId'])
     
-    Y_Test=test_data['label']
+    Y_Test=np.array(test_data['label'])
    
     #=================================================================
     #====================PREPROCESSAMENTO IMG=========================
     #=================================================================
 
-    #Preprocessamento immagini
-    X_features=[]
-    print("=========================================================")
-    print("================PREPROCESSING IMG========================")
-    print("=========================================================")
-    print("STARTING")
-    preprocesso=Preprocessor(preprocessingMethod,pcaComponents)
-    nameToImage=NameImage()
+    preprocess(preprocessingMethod=preprocessingMethod,pcaComponents=pcaComponents,X_training=X_Training,Y_training=Y_Training)
+
+
+        #scrittura del risultato del preprocessamento nel csv
+    #csvWriter=CSVwriter()                                           #per la scrittura
+    #csvWriter.writePatterns(type=preprocessingMethod,pcaApplied=False,data=X_features)
+    #csvWriter.readPatterns(type=preprocessingMethod,pcaApplied=False)
     
-    count=0
-    #total=len(X_Training)
-    total=10
-    
-    suffix=''
-    for i in X_Training:
-        
-        printLoadingBar(count,total,suffix)
-        
-        print("stats variance img: ", str(i))
-        img_path= nameToImage.nameToImage(str(i))
-        
-        processedImage=preprocesso.preprocess(img_path)
-        X_features.append(processedImage)
-        count+=1
-        if count==total:
-            break
-        
-    
-    print("\n\nCOMPLETED")
-
-
-    '''#da modificare
-    feat=np.array(X_features)
-    feat=feat.reshape(-1,2)
-    from sklearn.cluster import KMeans
-    from sklearn.metrics import silhouette_score
-    model_kMeans=KMeans(n_clusters=5, init='k-means++')
-
-    model_kMeans.fit(feat)
-
-    file1 = open("labels.txt", "w")
 
     
-    with open('project/training_labels.csv', 'r') as my_file:
-        file_csv = reader(my_file)
-        head = next(file_csv)
-
-        # check if the file is empty or not
-        if head is not None:
-            # Iterate over each row
-            conta=0
-            for i in file_csv:
-                id=i[0]
-                label=i[1]
-                predict=model_kMeans.labels_[conta]
-                conta+=1
-                file1.write("id->"+str(id)+"   predicted->"+str(predict)+"   true->"+str(label)+ str(predict==label)+"\n")
-                if conta==len(model_kMeans.labels_):
-                    break
-
-    file1.close()
+    
 
                 
 
 
-    #score = silhouette_score(feat, model_kMeans.labels_, metric='euclidean')
-    #
-    # Print the score
-    #
-    #print('Silhouetter Score: %.3f' % score)
     
-  '''
     
     
 
@@ -173,8 +157,7 @@ if __name__=="__main__":
         
     
 
-    #da aggiungere una normalizzazione delle features 
-
+   
     
 
     

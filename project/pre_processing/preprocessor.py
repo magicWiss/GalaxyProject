@@ -21,7 +21,7 @@ class Preprocessor:
 
 #preprocessamento 1-> cropp img (424*424->160*160)+ threshold con Otsu
 #Input-> path imag
-#output->img preprocessata
+#output->scrittura in un file csv delle features
 
 
     def preprocess(self, imgPath):
@@ -44,25 +44,20 @@ class Preprocessor:
         #flatternImage
         
 
-        pca=PrincipalComonentAnalysis(self.pcaComponent)
 
         #crop image
         croppedImg=np.array(cropper.cropImage(img))
-        print("Dimensione dopo crop:", croppedImg.shape)
+       
 
         #delete bg
         thresholdImage=np.array(thresh.threshImageOtsu(croppedImg))
 
-        print("Dimensioni pre flattering:",thresholdImage.shape)
+       
 
         #vectorize
-        flattedImage=np.array(flatter.flatterImage(thresholdImage))
+        finalImg=np.array(flatter.flatterImage(thresholdImage))
 
-        print("Dimensione dopo flattering:",flattedImage.shape)
-
-        finalImg=np.array(pca.reduceComponents(flattedImage))
-
-        print("Dimensione finale:",finalImg.shape)
+        
         
 
         return finalImg
@@ -77,29 +72,28 @@ class Preprocessor:
         #thresholder
         thresh=ThresholdImg()
 
-        flatter=FlatternImage(chanal=3)
-        #flatternImage
+        flatImageProcessor=FlatternImage(chanal=3)
+        
         
 
-        pca=PrincipalComonentAnalysis(self.pcaComponent)
-
+        
         #crop image
         croppedImg=np.array(cropper.cropImage(img))
-        print("Dimensione dopo crop:", croppedImg.shape)
+       
 
         #delete bg
         thresholdImage=np.array(thresh.threshImageBinary(croppedImg))
 
-        print("Dimensioni pre flattering:",thresholdImage.shape)
+        
 
-        #vectorize
-        flattedImage=np.array(flatter.flatterImage(thresholdImage))
+        
 
-        print("Dimensione dopo flattering:",flattedImage.shape)
+        #vettorizzazione dell'img trasformandolo da un 3d array (160*160*3) in un 1 d array (76800)
+        finalImg=flatImageProcessor.flatterImage(thresholdImage)
+        print(finalImg.shape)
+        
 
-        finalImg=np.array(pca.reduceComponents(flattedImage))
-
-        print("Dimensione finale:",finalImg.shape)
+       
         
 
         return finalImg

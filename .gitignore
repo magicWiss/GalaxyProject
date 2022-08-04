@@ -113,6 +113,8 @@ env.bak/
 venv.bak/
 vrnv.bak/
 images/
+project.files/
+schemi/
 
 # Spyder project settings
 .spyderproject
