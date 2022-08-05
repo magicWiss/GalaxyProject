@@ -4,7 +4,7 @@ Riduzione delle dimensioni da 160*160 in 125 features.
 
 
 '''
-from sklearn import datasets
+
 from sklearn.decomposition import PCA
 import cv2 as cv
 import pandas as pd

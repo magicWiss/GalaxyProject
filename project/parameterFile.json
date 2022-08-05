@@ -2,6 +2,14 @@
     
     "training_perc":0.7,
     "preProcessingMethod":1,
-    "PCAComponents":90
+    "PCAComponents":90,
 
+    "method":"delta",
+    "sampleSize":20,
+
+    "visualizeData":"True",
+    "dimensionPlot":3,
+
+    "model":""
+    
 }

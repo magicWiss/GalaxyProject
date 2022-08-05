@@ -15,9 +15,9 @@ from pre_processing.flatternImage import FlatternImage
 import numpy as np
 class Preprocessor:
 
-    def __init__(self, method,pcaComponent) -> None:
+    def __init__(self, method) -> None:
       self.method=method
-      self.pcaComponent=pcaComponent
+      
 
 #preprocessamento 1-> cropp img (424*424->160*160)+ threshold con Otsu
 #Input-> path imag
