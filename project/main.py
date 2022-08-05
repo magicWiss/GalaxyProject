@@ -163,12 +163,12 @@ if __name__=="__main__":
     #Training id
     X_TrainingImgs=np.array(training_data['imageId'])
     #training labels
-    Y_Training=np.array(training_data['label'])
+    Y_TrainingImgs=np.array(training_data['label'])
 
     #Test id
     X_TestImgs=np.array(test_data['imageId'])
     
-    Y_Test=np.array(test_data['label'])
+    Y_TestImgs=np.array(test_data['label'])
 
     print("Metodo di run:", method)
     print("Sample training size:",int(sampleSize*len(X_TrainingImgs)))
@@ -180,16 +180,25 @@ if __name__=="__main__":
     #=================================================================
     #TRAINING
     print("\nPreprocessing Training data")
-    X_featuresTraining=preprocess(preprocessingMethod=preprocessingMethod,X_Data=X_TrainingImgs,Y_Data=Y_Training,method=method,sampleSize=sampleSize)
+    X_featuresTraining=preprocess(preprocessingMethod=preprocessingMethod,X_Data=X_TrainingImgs,Y_Data=Y_TrainingImgs,method=method,sampleSize=sampleSize)
     print("\nExtracting Training features")
     X_Training,Y_Training=createFeaturesAndLabels(X_featuresTraining)
+
+
+    del X_TrainingImgs
+    del Y_TestImgs
+    del X_featuresTraining
     #preprocessamento del test set
 
     #TEST
     print("\nPreprocessing Test data")
-    X_featuresTest=preprocess(preprocessingMethod=preprocessingMethod,X_Data=X_TestImgs,Y_Data=Y_Test,method=method,sampleSize=sampleSize)
+    X_featuresTest=preprocess(preprocessingMethod=preprocessingMethod,X_Data=X_TestImgs,Y_Data=Y_TestImgs,method=method,sampleSize=sampleSize)
     print("\nExtracting Test features")
     X_Test,Y_Test=createFeaturesAndLabels(X_featuresTest)
+
+    del X_TestImgs
+    del Y_TrainingImgs
+    del X_featuresTest
     
     #scrittura del risultato del preprocessamento nel csv
     #csvWriter=CSVwriter()                                           #per la scrittura
@@ -208,9 +217,11 @@ if __name__=="__main__":
     #=======================================================================
     #standardizzazione delle features di training
     X_TrainingNorm=pd.DataFrame(StandardScaler().fit_transform(X_Training))
+    del X_Training
 
     #standardizzazione delle features di test
     X_TestNorm=pd.DataFrame(StandardScaler().fit_transform(X_Test))
+    del X_Test
 
 
 
