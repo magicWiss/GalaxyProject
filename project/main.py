@@ -25,15 +25,20 @@ def printLoadingBar(count,total,suffix):
         percents = round(100.0 * count / float(total), 1)
         bar = '=' * filled_len + '-' * (bar_len - filled_len)
 
-        sys.stdout.write('PREPROCESSING IMAGE:IN PROGRESS: [%s] %s%s ...%s\r' % (bar, percents, '%', suffix))
+        sys.stdout.write('IN PROGRESS: [%s] %s%s ...%s\r' % (bar, percents, '%', suffix))
         sys.stdout.flush()  
 
 def createFeaturesAndLabels(X_features):
     features=[]
     labels=[]
+    total=len(X_features)
+    count=0
+    suffix=''
     for i in X_features:
         features.append(i.features)
         labels.append(i.label)
+        printLoadingBar(count,total,suffix)
+        count+=1
         
     outLabels=pd.DataFrame(labels,columns=['target'])
     outFeatures=pd.DataFrame(features)
@@ -46,7 +51,7 @@ def preprocess(preprocessingMethod,X_Data,Y_Data,method,sampleSize):
     print("=========================================================")
     print("================PREPROCESSING IMG========================")
     print("=========================================================")
-    print("STARTING")
+   
     preprocesso=Preprocessor(preprocessingMethod)     #per il preprocessamento
     nameToImage=NameImage()                                         #per la conversione id img a pattern completo
    
@@ -83,7 +88,7 @@ def preprocess(preprocessingMethod,X_Data,Y_Data,method,sampleSize):
 
         count+=1
 
-    print("COMPLETED")    
+    print("\nCOMPLETED")    
     
     return X_features
     
@@ -176,14 +181,14 @@ if __name__=="__main__":
     #====================PREPROCESSAMENTO IMG=========================
     #=================================================================
     #TRAINING
-    print("Preprocessing Training data")
+    print("\nPreprocessing Training data")
     X_featuresTraining=preprocess(preprocessingMethod=preprocessingMethod,X_Data=X_TrainingImgs,Y_Data=Y_Training,method=method,sampleSize=sampleSize)
-
+    print("\nExtracting features")
     X_Training,Y_Training=createFeaturesAndLabels(X_featuresTraining)
     #preprocessamento del test set
 
     #TEST
-    print("Preprocessing test data")
+    print("\nPreprocessing test data")
     X_featuresTest=preprocess(preprocessingMethod=preprocessingMethod,X_Data=X_TestImgs,Y_Data=Y_Test,method=method,sampleSize=sampleSize)
     X_Test,Y_Test=createFeaturesAndLabels(X_featuresTest)
     

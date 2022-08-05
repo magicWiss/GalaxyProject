@@ -5,7 +5,7 @@
     "PCAComponents":90,
 
     "method":"delta",
-    "sampleSize":0.02,
+    "sampleSize":0.2,
 
     "visualizeData":"False",
     "dimensionPlot":3,
