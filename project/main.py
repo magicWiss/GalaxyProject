@@ -48,9 +48,7 @@ def preprocess(preprocessingMethod,X_Data,Y_Data,method,sampleSize):
     #Preprocessamento immagini
     #X_features=pd.DataFrame(columns=['id','fullPath','features','label'])
     X_features=[]
-    print("=========================================================")
-    print("================PREPROCESSING IMG========================")
-    print("=========================================================")
+   
    
     preprocesso=Preprocessor(preprocessingMethod)     #per il preprocessamento
     nameToImage=NameImage()                                         #per la conversione id img a pattern completo
@@ -88,7 +86,7 @@ def preprocess(preprocessingMethod,X_Data,Y_Data,method,sampleSize):
 
         count+=1
 
-    print("\nCOMPLETED")    
+      
     
     return X_features
     
@@ -183,13 +181,14 @@ if __name__=="__main__":
     #TRAINING
     print("\nPreprocessing Training data")
     X_featuresTraining=preprocess(preprocessingMethod=preprocessingMethod,X_Data=X_TrainingImgs,Y_Data=Y_Training,method=method,sampleSize=sampleSize)
-    print("\nExtracting features")
+    print("\nExtracting Training features")
     X_Training,Y_Training=createFeaturesAndLabels(X_featuresTraining)
     #preprocessamento del test set
 
     #TEST
-    print("\nPreprocessing test data")
+    print("\nPreprocessing Test data")
     X_featuresTest=preprocess(preprocessingMethod=preprocessingMethod,X_Data=X_TestImgs,Y_Data=Y_Test,method=method,sampleSize=sampleSize)
+    print("\nExtracting Test features")
     X_Test,Y_Test=createFeaturesAndLabels(X_featuresTest)
     
     #scrittura del risultato del preprocessamento nel csv
