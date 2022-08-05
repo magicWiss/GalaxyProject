@@ -90,7 +90,7 @@ class Preprocessor:
 
         #vettorizzazione dell'img trasformandolo da un 3d array (160*160*3) in un 1 d array (76800)
         finalImg=flatImageProcessor.flatterImage(thresholdImage)
-        print(finalImg.shape)
+        
         
 
        
@@ -100,13 +100,5 @@ class Preprocessor:
 
 
 
-'''if __name__=='__main__':
-    imgPath='../images/training/101501.jpg'
- 
-    preProc=Preprocessor()
-    img=preProc.preprocessTwo(imgPath)
 
-    plt.imshow(img)
-    plt.show()
-'''
 

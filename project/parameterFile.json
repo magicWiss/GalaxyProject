@@ -5,11 +5,11 @@
     "PCAComponents":90,
 
     "method":"delta",
-    "sampleSize":20,
+    "sampleSize":0.02,
 
-    "visualizeData":"True",
+    "visualizeData":"False",
     "dimensionPlot":3,
 
-    "model":""
+    "model":"knn"
     
 }

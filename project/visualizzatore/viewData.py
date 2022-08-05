@@ -1,6 +1,7 @@
 from matplotlib import  cm, pyplot as plt
 from sklearn.decomposition import PCA
 import pandas as pd
+import numpy as np
 
 class ViewData:
 
@@ -11,6 +12,10 @@ class ViewData:
         self.method=method
 
     def visualize(self,data,labels):
+        print("\n\n=================================================")
+        print("===============PLOT TRAINING DATA================")
+        print("=================================================")
+        
         if self.method==3:
             self.visualize3D(data,labels)
         else:
@@ -24,6 +29,10 @@ class ViewData:
         principalDf = pd.DataFrame(data = principalComponents
                 , columns = ['principal component 1', 'principal component 2'])
         #final df con cui effettuare la visualizzazione
+
+        ex_variance=np.var(principalComponents,axis=0)
+        ex_variance_ratio = ex_variance/np.sum(ex_variance)
+        print("Variance:",ex_variance_ratio)
         
         finalDf = pd.concat([principalDf, labels], axis = 1)
         
@@ -50,6 +59,9 @@ class ViewData:
     def visualize3D(self,featuresNorm,labels):
         pca=PCA(n_components=3)
         principalComponents=pca.fit_transform(featuresNorm)
+        ex_variance=np.var(principalComponents,axis=0)
+        ex_variance_ratio = ex_variance/np.sum(ex_variance)
+        print("Variance:",ex_variance_ratio)
 
         #dataframe conententi le due componenti estratte
         principalDf = pd.DataFrame(data = principalComponents

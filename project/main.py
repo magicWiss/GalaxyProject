@@ -16,6 +16,7 @@ from pre_processing.nameToImage import NameImage
 from classes.pattern import Pattern
 from classes.csvWriter import CSVwriter
 from visualizzatore.viewData import ViewData
+from models.router import ModelRouter
 
 def printLoadingBar(count,total,suffix):
         bar_len = 60
@@ -38,80 +39,7 @@ def createFeaturesAndLabels(X_features):
     outFeatures=pd.DataFrame(features)
     return (outFeatures,outLabels)
 
-def visualizeDataPlot(dimensionePlot,featurseNorm):
-
-    if dimensionePlot==3:
-        visualize3D(featuresNorm)
-
-    elif dimensionePlot==2:
-        visualize2D(featuresNorm)
-
-def visualize2D(featuresNorm):
-    pca=PCA(n_components=2)
-    principalComponents=pca.fit_transform(featuresNorm)
-
-    #dataframe conententi le due componenti estratte
-    principalDf = pd.DataFrame(data = principalComponents
-             , columns = ['principal component 1', 'principal component 2'])
-    #final df con cui effettuare la visualizzazione
-    
-    finalDf = pd.concat([principalDf, labels], axis = 1)
-    
-    print(finalDf)
-    fig = plt.figure()
-    ax=fig.add_subplot(1,1,1)
-    ax.set_xlabel('Principal Component 1', fontsize = 15)
-    ax.set_ylabel('Principal Component 2', fontsize = 15)
-   
-    ax.set_title('3 component PCA', fontsize = 20)
-    targets = [0, 1, 2,3,4]
-    colors = ['r', 'g', 'b','y']
-    for target, color in zip(targets,colors):
-        indicesToKeep = finalDf['target'] == target
-        ax.scatter(finalDf.loc[indicesToKeep, 'principal component 1']
-                , finalDf.loc[indicesToKeep, 'principal component 2']
-               
-                , c = color
-                , s = 50)
-    ax.legend(targets)
-    ax.grid()
-    plt.show()
-
-def visualize3D(featuresNorm):
-    pca=PCA(n_components=3)
-    principalComponents=pca.fit_transform(featuresNorm)
-
-    #dataframe conententi le due componenti estratte
-    principalDf = pd.DataFrame(data = principalComponents
-             , columns = ['principal component 1', 'principal component 2','principal component 3'])
-    finalDf = pd.concat([principalDf, labels], axis = 1)
-
-    targets = [0, 1, 2,3,4]
-    colors = ['r', 'g', 'b','y']
-    
-
-    fig = plt.figure(figsize=(15,10))
-    ax = fig.add_subplot(111, projection='3d')
-
-    fig.patch.set_facecolor('white')
-    for target, color in zip(targets,colors):
-        indicesToKeep = finalDf['target'] == target
-        ax.scatter(finalDf.loc[indicesToKeep, 'principal component 1']
-                , finalDf.loc[indicesToKeep, 'principal component 2']
-                , finalDf.loc[indicesToKeep, 'principal component 3']          
-                , c = color
-                , s = 50)
-
-        
-    # for loop ends
-    ax.set_xlabel("First Principal Component", fontsize=14)
-    ax.set_ylabel("Second Principal Component", fontsize=14)
-    ax.set_zlabel("Third Principal Component", fontsize=14)
-
-    ax.legend()
-    plt.show()
-
-def preprocess(preprocessingMethod,pcaComponents,X_training,Y_training,method,sampleSize):
+def preprocess(preprocessingMethod,X_Data,Y_Data,method,sampleSize):
     #Preprocessamento immagini
     #X_features=pd.DataFrame(columns=['id','fullPath','features','label'])
     X_features=[]
@@ -124,13 +52,14 @@ def preprocess(preprocessingMethod,pcaComponents,X_training,Y_training,method,sa
    
     
     count=0
-    #total=len(X_Training)
+    
     if method=='delta':
-        total=sampleSize
+        total=int(sampleSize*len(X_Data))                #il totale dei dati da usare in fase di delta
+        
     
     suffix=''
    
-    for i in X_Training:
+    for i in X_Data:
         
         printLoadingBar(count,total,suffix)
         
@@ -140,20 +69,19 @@ def preprocess(preprocessingMethod,pcaComponents,X_training,Y_training,method,sa
         processedImage=preprocesso.preprocess(img_path) #preprocesso l'immagine e ricavo il vettore delle features
         
 
-        label=Y_Training[count]                         #acqusisco il label [etichetta] associata
+        label=Y_Data[count]                         #acqusisco il label [etichetta] associata
 
         
         
-        #current=pd.DataFrame({"id":i, "fullPath":img_path,"features":[processedImage],"label":label})
-
-        #X_features=pd.concat([X_features,current],axis = 0)
 
         #creo una lista degli oggetti 
         current=Pattern(id=i,fullPath=img_path,features=processedImage,label=label)
         X_features.append(current)
-        count+=1
+        
         if count==total and method=='delta':
             break
+
+        count+=1
 
     print("COMPLETED")    
     
@@ -219,8 +147,7 @@ if __name__=="__main__":
     print("Dimensione dataset totale:",all_data.shape[0])
     print("Dimensione dataset training:",training_data.shape[0])
     print("Dimensione dataset di test:",test_data.shape[0])
-    print("Metodo di run:", method)
-    print("Sample size:",sampleSize)
+   
     
     #=========================================================
     #===============FINE CREAZIONE DATASET====================
@@ -231,22 +158,34 @@ if __name__=="__main__":
     #==============SUDDIVISIONE TRAINING E TEST SET===============
     #=============================================================
     #Training id
-    X_Training=np.array(training_data['imageId'])
+    X_TrainingImgs=np.array(training_data['imageId'])
     #training labels
     Y_Training=np.array(training_data['label'])
 
     #Test id
-    X_Test=np.array(test_data['imageId'])
+    X_TestImgs=np.array(test_data['imageId'])
     
     Y_Test=np.array(test_data['label'])
+
+    print("Metodo di run:", method)
+    print("Sample training size:",int(sampleSize*len(X_TrainingImgs)))
+    print("Sample test size:",int(sampleSize*len(X_TestImgs)))
+    
    
     #=================================================================
     #====================PREPROCESSAMENTO IMG=========================
     #=================================================================
+    #TRAINING
+    print("Preprocessing Training data")
+    X_featuresTraining=preprocess(preprocessingMethod=preprocessingMethod,X_Data=X_TrainingImgs,Y_Data=Y_Training,method=method,sampleSize=sampleSize)
 
-    X_features=preprocess(preprocessingMethod=preprocessingMethod,pcaComponents=pcaComponents,X_training=X_Training,Y_training=Y_Training,method=method,sampleSize=sampleSize)
+    X_Training,Y_Training=createFeaturesAndLabels(X_featuresTraining)
+    #preprocessamento del test set
 
-    features_dataFrame,labels=createFeaturesAndLabels(X_features)
+    #TEST
+    print("Preprocessing test data")
+    X_featuresTest=preprocess(preprocessingMethod=preprocessingMethod,X_Data=X_TestImgs,Y_Data=Y_Test,method=method,sampleSize=sampleSize)
+    X_Test,Y_Test=createFeaturesAndLabels(X_featuresTest)
     
     #scrittura del risultato del preprocessamento nel csv
     #csvWriter=CSVwriter()                                           #per la scrittura
@@ -254,29 +193,49 @@ if __name__=="__main__":
     #csvWriter.readPatterns(type=preprocessingMethod,pcaApplied=False)
     
 
-    #=================================================================
-    #====================PCA==========================================
-    #abbiamo un dataframe contenetne tutte le info necessarie
-    #bisgna normalizzare i valori e applicare la PCA sulle features
-    #=================================================================
-    from sklearn.decomposition import PCA
+    
+    
     from sklearn.preprocessing import StandardScaler
 
     
     
-   
-    
-    
+    #=======================================================================
+    #=====================Normalizzazione dei dati==========================
+    #=======================================================================
+    #standardizzazione delle features di training
+    X_TrainingNorm=pd.DataFrame(StandardScaler().fit_transform(X_Training))
 
-    #standardizzazione delle features (forse meglio da fare direttamente nella fase di preprocessing)
-    featuresNorm=pd.DataFrame(StandardScaler().fit_transform(features_dataFrame))
-    
+    #standardizzazione delle features di test
+    X_TestNorm=pd.DataFrame(StandardScaler().fit_transform(X_Test))
+
+
+
+    #=======================================================================
+    #=========================PLOT DEI DATI=================================
+    #=======================================================================
     
     #visualizzazione
     if(visualizeData=='True'):
        viewerData=ViewData(dimensionPlot)
-       viewerData.visualize(featuresNorm,labels)
+       viewerData.visualize(X_TrainingNorm,Y_Training)
+
+
+
+
     
+    #=========================================================================
+    #=========================MODEL==========================================
+    #=======================================================================
+
+    #lettura del modello da utilizzare per il run corrente dal file di parametri
+    ML_model=data['model']
+
+    modelRouter=ModelRouter(ML_model)
+    modelRouter.trainModel(X_TrainingNorm,Y_Training,X_TestNorm,Y_Test)     #probabilmente qui dovremmo passare anche per i modelli supervisionati anche X_test e Y_test
+
+
+
+
 
 
 
@@ -286,11 +245,7 @@ if __name__=="__main__":
    
     
     
-    #===============================2d======================
     
-   
-
-    #==================================3d=============================
     
 
 
