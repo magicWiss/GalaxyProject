@@ -2,8 +2,7 @@
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.decomposition import PCA
-class KNN:
+class RandomForest:
 
     def __init__(self):
 
@@ -11,10 +10,6 @@ class KNN:
 
     def predict(self, X_Train,Y_Train, X_Test, Y_Test):
         print("\nAddestramento di un modello KNN")
-        pca=PCA()
-      
-
-
         #qui si implementa il metodo per l'addesteamento del modello
         #si inseriscono qui le operazioni di:
         #PCA e scelta del numero di componenti ottimali

@@ -1,13 +1,13 @@
 {   
     
-    "training_perc":0.7,
+    "training_perc":0.5,
     "preProcessingMethod":1,
-    "PCAComponents":90,
+    "PCAComponents":0.90,
 
     "method":"delta",
-    "sampleSize":0.2,
+    "sampleSize":0.005,
 
-    "visualizeData":"False",
+    "visualizeData":"True",
     "dimensionPlot":3,
 
     "model":"knn"

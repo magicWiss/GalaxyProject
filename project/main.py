@@ -97,6 +97,7 @@ if __name__=="__main__":
     #========LETTURA PARAMETRI DI PREPROCESSINF===========
     #=====================================================
     with open('project/parameterFile.json', 'r') as f:
+
         data = json.load(f)                         #è un dizionario contentente tutti i parametri utilizzati
 
     
@@ -133,6 +134,7 @@ if __name__=="__main__":
 
     #creazione del training set e test set a partire da file trainig_labels.csV
     all_data=pd.read_csv('project/training_labels.csv')
+
     #shuffle del dataframe per evitare qualsisai dipendenza nella sequenza di immagini
     
 
@@ -186,7 +188,7 @@ if __name__=="__main__":
 
 
     del X_TrainingImgs
-    del Y_TestImgs
+    del Y_TrainingImgs
     del X_featuresTraining
     #preprocessamento del test set
 
@@ -197,7 +199,7 @@ if __name__=="__main__":
     X_Test,Y_Test=createFeaturesAndLabels(X_featuresTest)
 
     del X_TestImgs
-    del Y_TrainingImgs
+    del Y_TestImgs
     del X_featuresTest
     
     #scrittura del risultato del preprocessamento nel csv
@@ -247,7 +249,7 @@ if __name__=="__main__":
 
     modelRouter=ModelRouter(ML_model)
     modelRouter.trainModel(X_TrainingNorm,Y_Training,X_TestNorm,Y_Test)     #probabilmente qui dovremmo passare anche per i modelli supervisionati anche X_test e Y_test
-
+    
 
 
 

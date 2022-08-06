@@ -22,3 +22,6 @@ class ModelRouter:
         elif self.type=='knn':
             model=KNN()
             model.predict(X_Training,Y_Training,X_Test,Y_Test)
+
+       
+
