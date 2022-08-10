@@ -2,7 +2,7 @@
     
     "training_perc":0.5,
     "preProcessingMethod":1,
-    "PCAComponents":0.90,
+    "pcaNComponents":2,
 
     "method":"delta",
     "sampleSize":0.005,

@@ -8,7 +8,6 @@
 
 from pre_processing.cropImage import CropImage
 from pre_processing.thresholding import ThresholdImg
-from pre_processing.PCA import PrincipalComonentAnalysis
 import cv2 as cv
 from matplotlib import  cm, pyplot as plt
 from pre_processing.flatternImage import FlatternImage

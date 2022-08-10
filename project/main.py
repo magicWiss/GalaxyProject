@@ -6,11 +6,12 @@ import sklearn as skl
 import numpy as np
 import json
 
+
 import sys
 from matplotlib import  cm, pyplot as plt
 
-from  pre_processing.preprocessor import Preprocessor
-from pre_processing.PCA import PrincipalComonentAnalysis
+from pre_processing.preprocessor import Preprocessor
+from pre_processing.pca import PrincipalComponentAnalysis
 from csv import reader
 from pre_processing.nameToImage import NameImage
 from classes.pattern import Pattern
@@ -108,7 +109,7 @@ if __name__=="__main__":
     preprocessingMethod=data['preProcessingMethod']
 
     #numero componenti nella pca
-    pcaComponents=data['PCAComponents']
+    pcaComponents=data['pcaNComponents']
 
     #method
     method=data['method']               #full->tutti i dati, delta->subset
@@ -236,8 +237,20 @@ if __name__=="__main__":
        viewerData=ViewData(dimensionPlot)
        viewerData.visualize(X_TrainingNorm,Y_Training)
 
+    #=========================================================================
+    #=========================PCA==========================================
+    #=======================================================================
+    
+    #tramite il file json prendiamo il parametro che ci dice quante componenti vogliamo nella v pca
+    n_comp=pcaComponents
+    my_pca= PrincipalComponentAnalysis(n_comp)
+    
+    #applicazione della pca ai set già normalizzati
+    X_Train_Rid=my_pca.pcaFunction(X_TrainingNorm)   
+    X_Test_Rid=my_pca.pcaFunction(X_TestNorm)  
 
-
+    #stampa di tutti i parametri della pca
+    PrincipalComponentAnalysis.printParam(my_pca)
 
     
     #=========================================================================

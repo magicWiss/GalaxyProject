@@ -1,0 +1,30 @@
+https://towardsdatascience.com/pca-using-python-scikit-learn-e653f8989e60
+
+Standardizzare i dati
+Il testo in questo paragrafo è quasi una copia esatta di ciò che è stato scritto in precedenza. 
+PCA viene effettuato in base alla scalabilità, pertanto è necessario ridimensionare le funzionalità nei dati prima di applicare PCA.
+ È possibile trasformare i dati su scala unitaria (media = 0 e varianza = 1), che è un requisito per le prestazioni ottimali 
+ di molti algoritmi di apprendimento automatico. StandardScaler consente di standardizzare le funzionalità del set di dati.
+ 
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+# Fit on training set only.
+scaler.fit(train_img)
+# Apply transform to both the training set and the test set.
+train_img = scaler.transform(train_img)
+test_img = scaler.transform(test_img)
+
+.95 per il numero di parametri dei componenti. 
+Significa che scikit-learn sceglie il numero minimo di componenti principali in modo tale che il 95% della varianza venga mantenuto.
+
+from sklearn.decomposition import PCA
+# Make an instance of the Model
+pca = PCA(.95)
+
+pca.fit(train_img)
+Nota: è possibile scoprire quanti componenti PCA sceglie dopo aver montato il modello utilizzando pca.n_components_ . 
+In questo caso, il 95% della varianza ammonta a 330 componenti principali.
+
+Applicare il mapping (trasformazione) sia al set di training che al set di test.
+train_img = pca.transform(train_img)
+test_img = pca.transform(test_img)
