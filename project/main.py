@@ -247,7 +247,8 @@ if __name__=="__main__":
     
     #applicazione della pca ai set già normalizzati
     X_Train_Rid=pd.DataFrame(my_pca.pcaFunction(X_TrainingNorm)) 
-    X_Test_Rid=pd.DataFrame(my_pca.pcaFunction(X_TestNorm))
+    
+    X_Test_Rid=pd.DataFrame(PrincipalComponentAnalysis(my_pca.pca.n_components_).pcaFunction(X_TestNorm))
 
     #stampa di tutti i parametri della pca
     my_pca.printParam()
@@ -264,7 +265,7 @@ if __name__=="__main__":
     modelRouter=ModelRouter(ML_model)
     print("shape trainig data: ", X_Train_Rid.shape)
     print("shape trainig data: ", Y_Training.shape)
-    print("shape trainig data: ", X_Train_Rid.shape)
+    print("shape trainig data: ", X_Test_Rid.shape)
     print("shape trainig data: ", Y_Test.shape)
     modelRouter.trainModel(X_Train_Rid,Y_Training,X_Test_Rid,Y_Test)     #probabilmente qui dovremmo passare anche per i modelli supervisionati anche X_test e Y_test
     

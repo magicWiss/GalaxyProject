@@ -5,11 +5,11 @@
     "pcaNComponents":0.90,
 
     "method":"delta",
-    "sampleSize":0.004,
+    "sampleSize":0.001,
 
-    "visualizeData":"True",
+    "visualizeData":"False",
     "dimensionPlot":3,
 
-    "model":"kmeans"
+    "model":"knn"
     
 }

@@ -7,6 +7,9 @@ Y_training, X_training etc...
 
 from models.k_means import Kmeans
 from models.knn import KNN
+import pandas as pd
+
+from models.gaussianCluster import GaussMix
 class ModelRouter:
 
     def __init__(self, type):
@@ -22,6 +25,9 @@ class ModelRouter:
         elif self.type=='knn':
             model=KNN()
             model.predict(X_Training,Y_Training,X_Test,Y_Test)
-
+        
+        elif self.type=='gaussMix':
+            model=GaussMix()
+            model.predict(X_Training)
        
 

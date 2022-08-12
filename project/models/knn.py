@@ -18,9 +18,10 @@ class KNN:
     def predict(self, X_Train,Y_Train, X_Test, Y_Test):
         print("\nAddestramento di un modello KNN")
         knn = KNeighborsClassifier(n_neighbors=1)
-        Y_Train=np.array(Y_Train)
-        Y_Test=np.array(Y_Test)
+       
         knn.fit(X_Train,Y_Train)
+        print(X_Test)
+        print(X_Train)
 
         #predizione del modello
         pred = knn.predict(X_Test)
@@ -31,21 +32,22 @@ class KNN:
         
         #Scelta del valore di k: Per ogni valore di k chiameremo classificatore KNN e quindi sceglieremo il valore di k che ha il minor tasso di errore
         error_rate = []
+        max_k=20
 
-        for i in range(1,40):
+        for i in range(1,max_k+1):
     
             knn = KNeighborsClassifier(n_neighbors=i)
             knn.fit(X_Train,np.array(Y_Train))
             pred_i = knn.predict(X_Test)
             Y_Test=np.array(Y_Test)
-            error_rate.append(np.mean(pred_i != Y_Test.ravel()))
+            error_rate.append(np.mean(pred_i != Y_Test))
 
 
 
         #Tracciamo un grafico a linee del tasso di errore
         print("\nTracciamo un grafico a linee del tasso di errore")
         plt.figure(figsize=(10,6))
-        plt.plot(range(1,40),error_rate,color='blue', linestyle='dashed', marker='o', markerfacecolor='red', markersize=10)
+        plt.plot(range(1,max_k+1),error_rate,color='blue', linestyle='dashed', marker='o', markerfacecolor='red', markersize=10)
         plt.title('Error Rate vs. K Value')
         plt.xlabel('K')
         plt.ylabel('Error Rate')
