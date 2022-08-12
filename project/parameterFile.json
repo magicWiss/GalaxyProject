@@ -2,14 +2,14 @@
     
     "training_perc":0.5,
     "preProcessingMethod":1,
-    "pcaNComponents":2,
+    "pcaNComponents":0.90,
 
     "method":"delta",
-    "sampleSize":0.005,
+    "sampleSize":0.004,
 
     "visualizeData":"True",
     "dimensionPlot":3,
 
-    "model":"knn"
+    "model":"kmeans"
     
 }
