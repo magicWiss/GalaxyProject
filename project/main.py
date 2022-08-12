@@ -241,7 +241,7 @@ if __name__=="__main__":
     #=========================PCA==========================================
     #=======================================================================
     
-    #tramite il file json prendiamo il parametro che ci dice quante componenti vogliamo nella v pca
+    #tramite il file json prendiamo il parametro che ci dice quante componenti vogliamo nella pca
     n_comp=pcaComponents
     my_pca= PrincipalComponentAnalysis(n_comp)
     
@@ -260,8 +260,9 @@ if __name__=="__main__":
     #lettura del modello da utilizzare per il run corrente dal file di parametri
     ML_model=data['model']
 
+    #passiamo i modelli normalizzati e ridimensionati tramite pca
     modelRouter=ModelRouter(ML_model)
-    modelRouter.trainModel(X_TrainingNorm,Y_Training,X_TestNorm,Y_Test)     #probabilmente qui dovremmo passare anche per i modelli supervisionati anche X_test e Y_test
+    modelRouter.trainModel(X_Train_Rid,Y_Training,X_Test_Rid,Y_Test)     #probabilmente qui dovremmo passare anche per i modelli supervisionati anche X_test e Y_test
     
 
 

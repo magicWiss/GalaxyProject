@@ -28,9 +28,12 @@ class PrincipalComponentAnalysis:
     def printParam(self):
         #print('Covarianza dei dati con il modello generativo:')
         #print(self.pca.get_covariance.__str__)
-        #print('Parametri:' + self.pca.get_params.__str__)
-        #print('Matrice di precisione dei dati con il modello generativo:' + self.pca.get_precision.__str__)
-        #print('Quantità di varianza spiegata da ciascuno dei componenti selezionati:' + self.pca.explained_variance_ratio_)
+        #print('Parametri:')
+        #print(self.pca.get_params.__str__)
+        #print('Matrice di precisione dei dati con il modello generativo:\n')
+        #print(self.pca.get_precision)
+        #print('Quantità di varianza spiegata da ciascuno dei componenti selezionati:' 
+        #print(self.pca.explained_variance_ratio_)
         print('Numero di componenti selezionate nella pca: ', self.pca.n_components_)
         print('Numero di feature selezionate dalla pca: ', self.pca.n_features_in_)
         print('La covarianza del rumore stimata dalla pca: ', self.pca.noise_variance_)

@@ -28,3 +28,7 @@ In questo caso, il 95% della varianza ammonta a 330 componenti principali.
 Applicare il mapping (trasformazione) sia al set di training che al set di test.
 train_img = pca.transform(train_img)
 test_img = pca.transform(test_img)
+
+KNN
+https://datascienceplus.com/k-nearest-neighbors-knn-with-python/
+oppure https://www.tutorialspoint.com/scikit_learn/scikit_learn_kneighbors_classifier.htm
