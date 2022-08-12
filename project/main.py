@@ -11,7 +11,7 @@ import sys
 from matplotlib import  cm, pyplot as plt
 
 from pre_processing.preprocessor import Preprocessor
-from pre_processing.pca import PrincipalComponentAnalysis
+from pre_processing.PCA import PrincipalComponentAnalysis
 from csv import reader
 from pre_processing.nameToImage import NameImage
 from classes.pattern import Pattern
@@ -246,12 +246,12 @@ if __name__=="__main__":
     my_pca= PrincipalComponentAnalysis(n_comp)
     
     #applicazione della pca ai set già normalizzati
-    X_Train_Rid=my_pca.pcaFunction(X_TrainingNorm)   
-    X_Test_Rid=my_pca.pcaFunction(X_TestNorm)  
+    X_Train_Rid=pd.DataFrame(my_pca.pcaFunction(X_TrainingNorm)) 
+    X_Test_Rid=pd.DataFrame(my_pca.pcaFunction(X_TestNorm))
 
     #stampa di tutti i parametri della pca
-    PrincipalComponentAnalysis.printParam(my_pca)
-
+    my_pca.printParam()
+    
     
     #=========================================================================
     #=========================MODEL==========================================
@@ -262,6 +262,10 @@ if __name__=="__main__":
 
     #passiamo i modelli normalizzati e ridimensionati tramite pca
     modelRouter=ModelRouter(ML_model)
+    print("shape trainig data: ", X_Train_Rid.shape)
+    print("shape trainig data: ", Y_Training.shape)
+    print("shape trainig data: ", X_Train_Rid.shape)
+    print("shape trainig data: ", Y_Test.shape)
     modelRouter.trainModel(X_Train_Rid,Y_Training,X_Test_Rid,Y_Test)     #probabilmente qui dovremmo passare anche per i modelli supervisionati anche X_test e Y_test
     
 

@@ -18,6 +18,8 @@ class KNN:
     def predict(self, X_Train,Y_Train, X_Test, Y_Test):
         print("\nAddestramento di un modello KNN")
         knn = KNeighborsClassifier(n_neighbors=1)
+        Y_Train=np.array(Y_Train)
+        Y_Test=np.array(Y_Test)
         knn.fit(X_Train,Y_Train)
 
         #predizione del modello
@@ -33,9 +35,10 @@ class KNN:
         for i in range(1,40):
     
             knn = KNeighborsClassifier(n_neighbors=i)
-            knn.fit(X_Train,Y_Train)
+            knn.fit(X_Train,np.array(Y_Train))
             pred_i = knn.predict(X_Test)
-            error_rate.append(np.mean(pred_i != Y_Test))
+            Y_Test=np.array(Y_Test)
+            error_rate.append(np.mean(pred_i != Y_Test.ravel()))
 
 
 
@@ -46,6 +49,7 @@ class KNN:
         plt.title('Error Rate vs. K Value')
         plt.xlabel('K')
         plt.ylabel('Error Rate')
+        plt.show()
 
 
         #Ora dal grafico dovremo vedere qual è la zona con errore minore e quindi impostare il K noi manualmente e vedere la differenza con il K=1
