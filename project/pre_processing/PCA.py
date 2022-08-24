@@ -15,7 +15,7 @@ class PrincipalComponentAnalysis:
         self.pca=PCA(n_components=n_comp)
 
     
-    def pcaFunction(self,X_set):
+    def pcaFunction(self, X_set):
         #il training e test set sono già stati normalizzati nel main tramite Scaler
         #Adattare il modello con X e applicare la riduzione della dimensionalità su X.
         

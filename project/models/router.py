@@ -6,6 +6,7 @@ Y_training, X_training etc...
 '''
 
 from models.k_means import Kmeans
+from models.svm import SVM
 from models.knn import KNN
 import pandas as pd
 
@@ -29,5 +30,9 @@ class ModelRouter:
         elif self.type=='gaussMix':
             model=GaussMix()
             model.predict(X_Training)
+
+        elif self.type=='svm':
+            model=SVM()
+            model.predict(X_Training,Y_Training,X_Test,Y_Test)
        
 
