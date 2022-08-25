@@ -25,5 +25,5 @@ class SVM:
      y_pred = svclassifier.predict(X_Test)
      print(confusion_matrix(Y_Test, y_pred))
      print(classification_report(Y_Test, y_pred))
-     print("accuracy score:\n")
+     
      

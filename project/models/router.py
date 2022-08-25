@@ -33,6 +33,7 @@ class ModelRouter:
 
         elif self.type=='svm':
             model=SVM()
+            print("MODEL SVM")
             model.predict(X_Training,Y_Training,X_Test,Y_Test)
        
 

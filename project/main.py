@@ -11,7 +11,7 @@ import sys
 from matplotlib import  cm, pyplot as plt
 
 from pre_processing.preprocessor import Preprocessor
-from pre_processing.pca import PrincipalComponentAnalysis
+from pre_processing.PCA import PrincipalComponentAnalysis
 from csv import reader
 from pre_processing.nameToImage import NameImage
 from classes.pattern import Pattern

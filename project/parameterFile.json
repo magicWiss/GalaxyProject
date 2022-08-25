@@ -1,15 +1,15 @@
 {   
     
     "training_perc":0.5,
-    "preProcessingMethod":1,
+    "preProcessingMethod":2,
     "pcaNComponents":0.90,
 
     "method":"delta",
     "sampleSize":0.001,
 
-    "visualizeData":"False",
+    "visualizeData":"True",
     "dimensionPlot":3,
 
-    "model":"knn"
+    "model":"svm"
     
 }
