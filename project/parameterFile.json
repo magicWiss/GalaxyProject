@@ -10,6 +10,6 @@
     "visualizeData":"True",
     "dimensionPlot":3,
 
-    "model":"svm"
+    "model":"RandomForest"
     
 }

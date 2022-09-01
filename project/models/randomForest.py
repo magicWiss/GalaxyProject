@@ -1,7 +1,11 @@
 
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
+from pyexpat import model
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
 from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.ensemble import RandomForestClassifier
+
 class RandomForest:
 
     def __init__(self):
@@ -9,20 +13,26 @@ class RandomForest:
         pass
 
     def predict(self, X_Train,Y_Train, X_Test, Y_Test):
-        print("\nAddestramento di un modello KNN")
-        #qui si implementa il metodo per l'addesteamento del modello
-        #si inseriscono qui le operazioni di:
-        #PCA e scelta del numero di componenti ottimali
-        #cross-validation per la scelta del numero di k ottimi per il modello
-        #stampa del risultato dell'addestramento
-        model=KNeighborsClassifier()
-        model.fit(X_Train,Y_Train)
-        predicted_test=model.predict(X_Test)
-        acc=accuracy_score(Y_Test,predicted_test)
+        print("\nAddestramento di un modello RANDOM FOREST")
+        #combinare più alberi decisionali nel determinare l'output finale piuttosto che fare affidamento su singoli alberi decisionali.
+        #scgliamo 100 alberi
+        model = RandomForestClassifier(n_estimators = 10, criterion='entropy',random_state = 0)
 
-        print("KNN Accuricy:",acc)
-        print(confusion_matrix(Y_Test, predicted_test))
-        print(classification_report(Y_Test, predicted_test))
+        #fit
+      
+        model.fit(X_Train,np.ravel(Y_Train) )  
 
+        #Previsione di un nuovo risultato cambiando i valori
+        y_pred = model.predict(X_Test)  
+
+
+        cm=confusion_matrix(Y_Test,y_pred)
+        print(cm)
+
+        print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
+        model.score(X_Test, Y_Test)
+
+
+    
 
         

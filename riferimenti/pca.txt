@@ -32,3 +32,11 @@ test_img = pca.transform(test_img)
 KNN
 https://datascienceplus.com/k-nearest-neighbors-knn-with-python/
 oppure https://www.tutorialspoint.com/scikit_learn/scikit_learn_kneighbors_classifier.htm
+
+SVM
+https://medium.com/@suvigya2001/the-gaussian-rbf-kernel-in-non-linear-svm-2fb1c822aae0
+https://github.com/christianversloot/machine-learning-articles/blob/main/using-radial-basis-functions-for-svms-with-python-and-scikit-learn.md
+
+RANDOM FOREST
+https://builtin.com/data-science/random-forest-python
+https://www.geeksforgeeks.org/random-forest-regression-in-python/

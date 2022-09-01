@@ -18,9 +18,6 @@ class SVM:
 
         print("\nAddestramento di un modello SVM")
         
-
-        
-        
         #Per utilizzare il kernel gaussiano, è necessario specificare 'rbf' come valore per il parametro Kernel della classe SVC.
         svclassifier = SVC(kernel='rbf')
 

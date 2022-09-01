@@ -8,9 +8,11 @@ Y_training, X_training etc...
 from models.k_means import Kmeans
 from models.svm import SVM
 from models.knn import KNN
+from models.randomForest import RandomForest
 import pandas as pd
 
 from models.gaussianCluster import GaussMix
+
 class ModelRouter:
 
     def __init__(self, type):
@@ -34,6 +36,11 @@ class ModelRouter:
         elif self.type=='svm':
             model=SVM()
             print("MODEL SVM")
+            model.predict(X_Training,Y_Training,X_Test,Y_Test)
+
+        elif self.type=='RandomForest':
+            model=RandomForest()
+            print("RANDOM FOREST")
             model.predict(X_Training,Y_Training,X_Test,Y_Test)
        
 
