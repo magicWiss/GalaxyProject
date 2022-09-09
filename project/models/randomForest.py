@@ -3,7 +3,7 @@ from pyexpat import model
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 
 class RandomForest:
@@ -29,7 +29,7 @@ class RandomForest:
         cm=confusion_matrix(Y_Test,y_pred)
         print(cm)
 
-        print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
+        print("Accuracy:",accuracy_score(Y_Test, y_pred))
         model.score(X_Test, Y_Test)
 
 
