@@ -1,15 +1,15 @@
 {   
     
-    "training_perc":0.5,
-    "preProcessingMethod":2,
+    "training_perc":0.8,
+    "preProcessingMethod":1,
     "pcaNComponents":0.90,
-
+    "VGG16":"True",
     "method":"delta",
     "sampleSize":0.001,
 
     "visualizeData":"True",
     "dimensionPlot":3,
 
-    "model":"RandomForest"
+    "model":"AdaBoost"
     
 }

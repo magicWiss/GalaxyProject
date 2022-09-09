@@ -12,7 +12,7 @@ import numpy as np
 class PrincipalComponentAnalysis:
 
     def __init__(self, n_comp) :
-        self.pca=PCA(n_components=n_comp)
+        self.pca=PCA(n_components=n_comp,whiten=True)
 
     
     def pcaFunction(self, X_set):
@@ -23,7 +23,8 @@ class PrincipalComponentAnalysis:
        
         return set_rid
 
-    
+    def pcaFunctionTest(self, test_set):
+        return self.pca.transform(test_set)
     
     def printParam(self):
         #print('Covarianza dei dati con il modello generativo:')

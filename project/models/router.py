@@ -8,10 +8,12 @@ Y_training, X_training etc...
 from models.k_means import Kmeans
 from models.svm import SVM
 from models.knn import KNN
+from models.logisticReg import LogisticReg
 from models.randomForest import RandomForest
 import pandas as pd
 
 from models.gaussianCluster import GaussMix
+from models.adaBoost import AdaBoost
 
 class ModelRouter:
 
@@ -42,5 +44,14 @@ class ModelRouter:
             model=RandomForest()
             print("RANDOM FOREST")
             model.predict(X_Training,Y_Training,X_Test,Y_Test)
-       
+
+        elif self.type=='LogisticReg':
+            model=LogisticReg()
+            print("Multinomial regression")
+            model.predict(X_Training,Y_Training,X_Test,Y_Test)
+        
+        elif self.type=="AdaBoost":
+            model=AdaBoost()
+            print("AdaBoostClassification")
+            model.predict(X_Training,Y_Training,X_Test,Y_Test)
 

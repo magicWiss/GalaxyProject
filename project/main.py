@@ -9,7 +9,7 @@ import json
 
 import sys
 from matplotlib import  cm, pyplot as plt
-
+from keras.applications.vgg16 import VGG16
 from pre_processing.preprocessor import Preprocessor
 from pre_processing.PCA import PrincipalComponentAnalysis
 from csv import reader
@@ -123,6 +123,9 @@ if __name__=="__main__":
     #tipo di visualizzazione
     dimensionPlot=data['dimensionPlot']     #3d o 2d
 
+    #utilizzo VGG16 per features extraction
+    use_vgg16=data['VGG16']
+
 
     
     #========================================================
@@ -226,6 +229,27 @@ if __name__=="__main__":
     X_TestNorm=pd.DataFrame(StandardScaler().fit_transform(X_Test))
     del X_Test
 
+    #======================================================================
+    #===========================VGG16 Features extraction==================
+    #======================================================================
+    if use_vgg16==True:
+        if preprocessingMethod==1:
+            size=(160,160,1)
+        else:
+            size=(160,160,3)
+        VGG_model=VGG16(weights='imagenet',include_top=False, inputSize=size)
+
+        for layer in VGG_model.layers:
+            layer.trainable=False       #non addestriamo la rete ma la usiamo solo per feature extraction
+        
+
+        #estrazione dellefeatures per Training
+        features_extractor=VGG_model.predict(X_TrainingNorm)
+        X_TrainingNorm=features_extractor.reshape(features_extractor.shape[0],-1)
+        
+        #estrazione features per test
+        features_extractor=VGG_model.predict(X_TestNorm)
+        X_TestNorm=X_TrainingNorm=features_extractor.reshape(features_extractor.shape[0],-1)
 
 
     #=======================================================================
@@ -247,12 +271,16 @@ if __name__=="__main__":
     #applicazione della pca ai set già normalizzati
     X_Train_Rid=pd.DataFrame(my_pca.pcaFunction(X_TrainingNorm)) 
     
-    X_Test_Rid=pd.DataFrame(PrincipalComponentAnalysis(my_pca.pca.n_components_).pcaFunction(X_TestNorm))
+    
+    X_Test_Rid=pd.DataFrame(my_pca.pcaFunctionTest(X_TestNorm))
 
     #stampa di tutti i parametri della pca
     my_pca.printParam()
-    
-    
+    del X_TrainingNorm
+    del X_TestNorm
+    if(visualizeData=='True'):
+       viewerData=ViewData(dimensionPlot)
+       viewerData.visualize(X_Train_Rid,Y_Training)
     #=========================================================================
     #=========================MODEL==========================================
     #=======================================================================
@@ -264,8 +292,8 @@ if __name__=="__main__":
     modelRouter=ModelRouter(ML_model)
     print("shape trainig data: ", X_Train_Rid.shape)
     print("shape trainig data: ", Y_Training.shape)
-    print("shape trainig data: ", X_Test_Rid.shape)
-    print("shape trainig data: ", Y_Test.shape)
+    print("shape test data: ", X_Test_Rid.shape)
+    print("shape test data: ", Y_Test.shape)
     modelRouter.trainModel(X_Train_Rid,Y_Training,X_Test_Rid,Y_Test)     #probabilmente qui dovremmo passare anche per i modelli supervisionati anche X_test e Y_test
     
 
