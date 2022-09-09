@@ -142,13 +142,25 @@ if __name__=="__main__":
     #shuffle del dataframe per evitare qualsisai dipendenza nella sequenza di immagini
     
 
+    stats=all_data['label'].value_counts()
     
     #divisione Training e Test-set
+
+
+
     numberOfRowsTraining=round(all_data.shape[0]*perc_training)
     
   
     training_data=all_data.iloc[:numberOfRowsTraining, :]
+    training_stats=training_data['label'].value_counts(normalize=True)
+    print(training_stats)
+    training_stats.plot.bar()
+    plt.show()
+
+
     test_data=all_data.iloc[numberOfRowsTraining:, :]
+    test_stats=test_data['label'].value_counts()
+    print(test_stats)
 
     #check se ci sono righe comuni
     
@@ -246,7 +258,7 @@ if __name__=="__main__":
         #estrazione dellefeatures per Training
         features_extractor=VGG_model.predict(X_TrainingNorm)
         X_TrainingNorm=features_extractor.reshape(features_extractor.shape[0],-1)
-        
+
         #estrazione features per test
         features_extractor=VGG_model.predict(X_TestNorm)
         X_TestNorm=X_TrainingNorm=features_extractor.reshape(features_extractor.shape[0],-1)
@@ -264,23 +276,28 @@ if __name__=="__main__":
     #=========================================================================
     #=========================PCA==========================================
     #=======================================================================
-    
-    #tramite il file json prendiamo il parametro che ci dice quante componenti vogliamo nella pca
-    my_pca= PrincipalComponentAnalysis(pcaComponents)
-    
-    #applicazione della pca ai set già normalizzati
-    X_Train_Rid=pd.DataFrame(my_pca.pcaFunction(X_TrainingNorm)) 
-    
-    
-    X_Test_Rid=pd.DataFrame(my_pca.pcaFunctionTest(X_TestNorm))
+    if use_vgg16==True:
+        #tramite il file json prendiamo il parametro che ci dice quante componenti vogliamo nella pca
+        my_pca= PrincipalComponentAnalysis(pcaComponents)
+        
+        #applicazione della pca ai set già normalizzati
+        X_Train_Rid=pd.DataFrame(my_pca.pcaFunction(X_TrainingNorm)) 
+        
+        
+        X_Test_Rid=pd.DataFrame(my_pca.pcaFunctionTest(X_TestNorm))
 
-    #stampa di tutti i parametri della pca
-    my_pca.printParam()
-    del X_TrainingNorm
-    del X_TestNorm
-    if(visualizeData=='True'):
-       viewerData=ViewData(dimensionPlot)
-       viewerData.visualize(X_Train_Rid,Y_Training)
+        #stampa di tutti i parametri della pca
+        my_pca.printParam()
+        del X_TrainingNorm
+        del X_TestNorm
+        if(visualizeData=='True'):
+            viewerData=ViewData(dimensionPlot)
+            viewerData.visualize(X_Train_Rid,Y_Training)
+        
+    else:
+        X_Train_Rid=X_TrainingNorm
+        X_Test_Rid=X_TestNorm
+
     #=========================================================================
     #=========================MODEL==========================================
     #=======================================================================
