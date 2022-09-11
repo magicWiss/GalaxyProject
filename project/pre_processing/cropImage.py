@@ -44,7 +44,7 @@ class CropImage:
 
 
 if __name__=='__main__':
-    imgPath='/images/training/100335.jpg'
+    imgPath='./images/training/100335.jpg'
     img = cv.imread(imgPath,0)
     arr=np.array(img)
     print("size->",(arr.shape))

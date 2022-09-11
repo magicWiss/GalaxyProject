@@ -1,15 +1,15 @@
 {   
     
     "training_perc":0.8,
-    "preProcessingMethod":2,
+    "preProcessingMethod":3,
     "pcaNComponents":0.90,
-    "VGG16":"True",
+    "VGG16":"False",
     "method":"delta",
-    "sampleSize":0.001,
+    "sampleSize":0.02,
 
-    "visualizeData":"True",
+    "visualizeData":"False",
     "dimensionPlot":3,
 
-    "model":"LogisticReg"
+    "model":"knn"
     
 }

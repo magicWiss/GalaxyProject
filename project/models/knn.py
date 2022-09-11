@@ -20,18 +20,18 @@ class KNN:
         knn = KNeighborsClassifier(n_neighbors=1)
        
         knn.fit(X_Train,Y_Train)
-        print(X_Test)
-        print(X_Train)
+        
 
         #predizione del modello
         pred = knn.predict(X_Test)
 
-        print("\nValutiamo il nostro modello KNN")
+       
         print(confusion_matrix(Y_Test,pred))
         print(classification_report(Y_Test,pred))
         
         #Scelta del valore di k: Per ogni valore di k chiameremo classificatore KNN e quindi sceglieremo il valore di k che ha il minor tasso di errore
         error_rate = []
+        error4k={}
         max_k=20
 
         for i in range(1,max_k+1):
@@ -40,8 +40,9 @@ class KNN:
             knn.fit(X_Train,np.array(Y_Train))
             pred_i = knn.predict(X_Test)
             Y_Test=np.array(Y_Test)
-            error_rate.append(np.mean(pred_i != Y_Test))
-
+            rate=np.mean(pred_i!=Y_Test)
+            error_rate.append(rate)
+            error4k[i]=np.mean(rate)
 
 
         #Tracciamo un grafico a linee del tasso di errore
@@ -58,12 +59,13 @@ class KNN:
         #iniziale preso come esempio
         #altrimenti dovremo fare una selezione del minimo dell' Error rate e memorizzare in una variabile il suo K associato così da metterla qui e controllare le differenze
         
-        knn = KNeighborsClassifier(n_neighbors=23)
+        mini=min(error4k,key=error4k.get)
+        knn = KNeighborsClassifier(n_neighbors=mini,algorithm='kd_tree')
 
         knn.fit(X_Train,Y_Train)
         pred = knn.predict(X_Test)
 
-        print('WITH K=23')
+        print('WITH K=',mini)
         print('\n')
         print(confusion_matrix(Y_Test,pred))
         print('\n')

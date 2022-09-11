@@ -8,6 +8,7 @@
 
 from pre_processing.cropImage import CropImage
 from pre_processing.thresholding import ThresholdImg
+from pre_processing.edgeDetection import EdgeDetection
 import cv2 as cv
 from matplotlib import  cm, pyplot as plt
 from pre_processing.flatternImage import FlatternImage
@@ -28,7 +29,8 @@ class Preprocessor:
             return self.preprocessOne(imgPath)
         elif self.method==2:
             return self.preprocessTwo(imgPath)
-
+        elif self.method==3:
+            return self.preprocess3(imgPath)
 
     def preprocessOne(self, imgPath):
         img = cv.imread(imgPath,0)
@@ -96,6 +98,54 @@ class Preprocessor:
         
 
         return finalImg
+
+    def preprocess3(self,imgPath):
+        img = cv.imread(imgPath)
+
+        
+        #cropper
+        img=np.array(img)
+        cropper=CropImage()
+        #thresholder
+        thresh=ThresholdImg()
+
+        flatImageProcessor=FlatternImage(chanal=3)
+        
+
+        
+
+        
+        #crop image
+        croppedImg=np.array(cropper.cropImage(img))
+       
+
+        #delete bg
+        thresholdImage=np.array(thresh.threshImageBinary(croppedImg))
+
+        edge=EdgeDetection()
+
+        imgEdge=edge.auto_canny(thresholdImage)
+        
+        
+
+        
+
+        
+
+        #vettorizzazione dell'img trasformandolo da un 3d array (160*160*3) in un 1 d array (76800)
+        finalImg=flatImageProcessor.flatterImage(imgEdge)
+        return finalImg
+        
+
+if __name__=='__main__':
+    imgPath='./images/training/100288.jpg'
+    
+    processImg=Preprocessor(3)
+    imgProcess=processImg.preprocess(imgPath)
+    plt.imshow(imgProcess,cmap='gray')
+    
+    plt.show()
+   
 
 
 

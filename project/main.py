@@ -142,7 +142,7 @@ if __name__=="__main__":
     #shuffle del dataframe per evitare qualsisai dipendenza nella sequenza di immagini
     
 
-    stats=all_data['label'].value_counts()
+    
     
     #divisione Training e Test-set
 
@@ -152,15 +152,17 @@ if __name__=="__main__":
     
   
     training_data=all_data.iloc[:numberOfRowsTraining, :]
-    training_stats=training_data['label'].value_counts(normalize=True)
-    print(training_stats)
-    training_stats.plot.bar()
-    plt.show()
-
-
     test_data=all_data.iloc[numberOfRowsTraining:, :]
-    test_stats=test_data['label'].value_counts()
-    print(test_stats)
+    
+    
+   #Da fare un multiBar- plot
+    if(visualizeData=='True'):
+        stats=all_data['label'].value_counts()
+        training_stats=training_data['label'].value_counts(normalize=True)
+        training_stats.plot.bar()
+        test_stats=test_data['label'].value_counts()
+        plt.show()
+    
 
     #check se ci sono righe comuni
     
@@ -212,7 +214,7 @@ if __name__=="__main__":
     print("\nPreprocessing Test data")
     X_featuresTest=preprocess(preprocessingMethod=preprocessingMethod,X_Data=X_TestImgs,Y_Data=Y_TestImgs,method=method,sampleSize=sampleSize)
     print("\nExtracting Test features")
-    X_Test,Y_Test=createFeaturesAndLabels(X_featuresTest)
+    X_Test,Y_Test=createFeaturesAndLabels(X_featuresTest)   #da rivedere
 
     del X_TestImgs
     del Y_TestImgs
@@ -245,7 +247,7 @@ if __name__=="__main__":
     #===========================VGG16 Features extraction==================
     #======================================================================
     if use_vgg16==True:
-        if preprocessingMethod==1:
+        if preprocessingMethod==1 or preprocessingMethod==3:
             size=(160,160,1)
         else:
             size=(160,160,3)
@@ -276,27 +278,25 @@ if __name__=="__main__":
     #=========================================================================
     #=========================PCA==========================================
     #=======================================================================
-    if use_vgg16==True:
-        #tramite il file json prendiamo il parametro che ci dice quante componenti vogliamo nella pca
-        my_pca= PrincipalComponentAnalysis(pcaComponents)
+    
+    #tramite il file json prendiamo il parametro che ci dice quante componenti vogliamo nella pca
+    my_pca= PrincipalComponentAnalysis(pcaComponents)
         
-        #applicazione della pca ai set già normalizzati
-        X_Train_Rid=pd.DataFrame(my_pca.pcaFunction(X_TrainingNorm)) 
+    #applicazione della pca ai set già normalizzati
+    X_Train_Rid=pd.DataFrame(my_pca.pcaFunction(X_TrainingNorm.fillna(0))).fillna(0) 
         
         
-        X_Test_Rid=pd.DataFrame(my_pca.pcaFunctionTest(X_TestNorm))
+    X_Test_Rid=pd.DataFrame(my_pca.pcaFunctionTest(X_TestNorm.fillna(0))).fillna(0)
 
-        #stampa di tutti i parametri della pca
-        my_pca.printParam()
-        del X_TrainingNorm
-        del X_TestNorm
-        if(visualizeData=='True'):
+    #stampa di tutti i parametri della pca
+    my_pca.printParam()
+    del X_TrainingNorm
+    del X_TestNorm
+    if(visualizeData=='True'):
             viewerData=ViewData(dimensionPlot)
-            viewerData.visualize(X_Train_Rid,Y_Training)
+            viewerData.visualize(X_Train_Rid,Y_Training)        
         
-    else:
-        X_Train_Rid=X_TrainingNorm
-        X_Test_Rid=X_TestNorm
+
 
     #=========================================================================
     #=========================MODEL==========================================
