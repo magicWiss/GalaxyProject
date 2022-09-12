@@ -253,8 +253,6 @@ if __name__=="__main__":
             size=(160,160,3)
         VGG_model=VGG16(weights='imagenet',include_top=False, inputSize=size)
 
-        for layer in VGG_model.layers:
-            layer.trainable=False       #non addestriamo la rete ma la usiamo solo per feature extraction
         
 
         #estrazione dellefeatures per Training
@@ -263,7 +261,7 @@ if __name__=="__main__":
 
         #estrazione features per test
         features_extractor=VGG_model.predict(X_TestNorm)
-        X_TestNorm=X_TrainingNorm=features_extractor.reshape(features_extractor.shape[0],-1)
+        X_TestNorm=features_extractor.reshape(features_extractor.shape[0],-1)
 
 
     #=======================================================================
