@@ -9,6 +9,7 @@
 from pre_processing.cropImage import CropImage
 from pre_processing.thresholding import ThresholdImg
 from pre_processing.edgeDetection import EdgeDetection
+from pre_processing.colorAdj import ColorBoost
 import cv2 as cv
 from matplotlib import  cm, pyplot as plt
 from pre_processing.flatternImage import FlatternImage
@@ -111,6 +112,8 @@ class Preprocessor:
 
         flatImageProcessor=FlatternImage(chanal=3)
         
+        colorBright=ColorBoost()
+        
 
         
 
@@ -122,9 +125,14 @@ class Preprocessor:
         #delete bg
         thresholdImage=np.array(thresh.threshImageBinary(croppedImg))
 
+        #adjustBright
+        thresholdImage=np.array(colorBright.boostBright(thresholdImage, method='in'))
+       
+
         edge=EdgeDetection()
 
         imgEdge=edge.auto_canny(thresholdImage)
+        
         
         
 
@@ -135,13 +143,21 @@ class Preprocessor:
         #vettorizzazione dell'img trasformandolo da un 3d array (160*160*3) in un 1 d array (76800)
         finalImg=flatImageProcessor.flatterImage(imgEdge)
         return finalImg
+
         
 
 if __name__=='__main__':
-    imgPath='./images/training/100288.jpg'
+    imgPath='./images/training/999875.jpg'
     
     processImg=Preprocessor(3)
-    imgProcess=processImg.preprocess(imgPath)
+    imgProcess, crop, thres=processImg.preprocess(imgPath)
+    titles=['img','cropo','thresh','edge']
+    images=[cv.imread(imgPath),crop, thres, imgProcess]
+    for i in range(4):
+        plt.subplot(1,4,i+1), plt.imshow(images[i], 'gray')
+        plt.title(titles[i])
+        plt.xticks([]), plt.yticks([])
+
     plt.imshow(imgProcess,cmap='gray')
     
     plt.show()
