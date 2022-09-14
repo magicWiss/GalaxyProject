@@ -4,11 +4,11 @@
     "preProcessingMethod":1,
     "pcaNComponents":0.90,
 
-    "VGG16":"False",
+    "VGG16":"True",
 
 
     "method":"delta",
-    "sampleSize":0.2,
+    "sampleSize":0.08,
 
     "visualizeData":"False",
     "dimensionPlot":3,
