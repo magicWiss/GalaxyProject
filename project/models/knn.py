@@ -2,6 +2,7 @@
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report, confusion_matrix
+from pre_processing.crossValid import CrossValidation
 import numpy as np
 
 import pandas as pd
@@ -34,16 +35,26 @@ class KNN:
         error4k={}
         max_k=20
 
+        
+
         for i in range(1,max_k+1):
     
             knn = KNeighborsClassifier(n_neighbors=i)
             knn.fit(X_Train,np.array(Y_Train))
-            pred_i = knn.predict(X_Test)
+
+            #CROSS VALIDATION
+            CV = CrossValidation(i)
+            pred_i = CV.kFoldCV(X_Test, np.array(Y_Test), knn.predict(X_Test))
+            
+            #confronto
             Y_Test=np.array(Y_Test)
             rate=np.mean(pred_i!=Y_Test)
             error_rate.append(rate)
             error4k[i]=np.mean(rate)
 
+        #print("Cross Validation Scores: ", pred_i.scores)
+        #print("Average CV Score: ", pred_i.scores.mean())
+        #print("Number of CV Scores used in Average: ", pred_i.len(scores))  
 
         #Tracciamo un grafico a linee del tasso di errore
         print("\nTracciamo un grafico a linee del tasso di errore")
@@ -63,7 +74,11 @@ class KNN:
         knn = KNeighborsClassifier(n_neighbors=mini,algorithm='kd_tree')
 
         knn.fit(X_Train,Y_Train)
+        
+        
+        #addestriamo con il test set
         pred = knn.predict(X_Test)
+
 
         print('WITH K=',mini)
         print('\n')
