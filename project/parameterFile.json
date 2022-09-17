@@ -8,11 +8,11 @@
 
 
     "method":"delta",
-    "sampleSize":0.2,
+    "sampleSize":0.02,
 
     "visualizeData":"False",
     "dimensionPlot":3,
 
-    "model":"kmeans"
+    "model":"svm"
     
 }

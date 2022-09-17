@@ -10,6 +10,7 @@ from pre_processing.cropImage import CropImage
 from pre_processing.thresholding import ThresholdImg
 from pre_processing.edgeDetection import EdgeDetection
 from pre_processing.colorAdj import ColorBoost
+
 import cv2 as cv
 from matplotlib import  cm, pyplot as plt
 from pre_processing.flatternImage import FlatternImage
@@ -18,6 +19,8 @@ class Preprocessor:
 
     def __init__(self, method) -> None:
       self.method=method
+      if self.method==4:
+        self.vgg16=FeatureExtractor()
       
 
 #preprocessamento 1-> cropp img (424*424->160*160)+ threshold con Otsu
@@ -32,6 +35,8 @@ class Preprocessor:
             return self.preprocessTwo(imgPath)
         elif self.method==3:
             return self.preprocess3(imgPath)
+        elif self.method==4:
+            return self.preprocess4(imgPath)
 
     def preprocessOne(self, imgPath):
         img = cv.imread(imgPath,0)
@@ -144,6 +149,11 @@ class Preprocessor:
         finalImg=flatImageProcessor.flatterImage(imgEdge)
         return finalImg
 
+    def preprocess4(self, imgpath):
+
+        
+        features=self.vgg16.extractFeatures(imgpath)
+        return features
         
 
 if __name__=='__main__':
