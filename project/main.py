@@ -10,6 +10,7 @@ import json
 import sys
 from matplotlib import  cm, pyplot as plt
 from keras.applications.vgg16 import VGG16
+from pre_processing.featureExtr import FeatureExtractor
 from pre_processing.preprocessor import Preprocessor
 from pre_processing.PCA import PrincipalComponentAnalysis
 from csv import reader
@@ -69,6 +70,7 @@ def preprocess(preprocessingMethod,X_Data,Y_Data,method,sampleSize):
         
         
         img_path= nameToImage.nameToImage(str(i))       #acquisisco il nome completo della immagine
+        
         
         processedImage=preprocesso.preprocess(img_path) #preprocesso l'immagine e ricavo il vettore delle features
         
@@ -229,7 +231,6 @@ if __name__=="__main__":
     
     
     from sklearn.preprocessing import StandardScaler
-
     
     
     #=======================================================================
