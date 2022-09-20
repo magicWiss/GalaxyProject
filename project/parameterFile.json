@@ -5,11 +5,11 @@
     "pcaNComponents":0.90,
     "VGG16":"False",
     "method":"delta",
-    "sampleSize":0.02,
+    "sampleSize":0.002,
 
     "visualizeData":"False",
     "dimensionPlot":3,
-
+    "redComMet":"lda",
     "model":"knn"
     
 }

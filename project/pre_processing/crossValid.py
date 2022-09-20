@@ -14,8 +14,8 @@ class CrossValidation:
     def kFoldCV(self, X_train, Y_train, modello):
         #Ora valutiamo il nostro modello e vediamo come si comporta su ogni k-fold.
 
-        scores = cross_val_score(modello, X_train, Y_train, cv = self.k_folds)
-
+        scores = cross_val_score(modello, X_train, Y_train)
+        return scores
         #print("Cross Validation Scores: ", scores)
         #print("Average CV Score: ", scores.mean())
         #print("Number of CV Scores used in Average: ", len(scores))  

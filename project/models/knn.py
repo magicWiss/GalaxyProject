@@ -2,6 +2,8 @@
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
 from pre_processing.crossValid import CrossValidation
 import numpy as np
 
@@ -17,23 +19,12 @@ class KNN:
         pass
 
     def predict(self, X_Train,Y_Train, X_Test, Y_Test):
-        print("\nAddestramento di un modello KNN")
-        knn = KNeighborsClassifier(n_neighbors=1)
-       
-        knn.fit(X_Train,Y_Train)
         
-
-        #predizione del modello
-        pred = knn.predict(X_Test)
-
-       
-        print(confusion_matrix(Y_Test,pred))
-        print(classification_report(Y_Test,pred))
         
         #Scelta del valore di k: Per ogni valore di k chiameremo classificatore KNN e quindi sceglieremo il valore di k che ha il minor tasso di errore
         error_rate = []
         error4k={}
-        max_k=20
+        max_k=5
 
         
 
@@ -43,14 +34,39 @@ class KNN:
             knn.fit(X_Train,np.array(Y_Train))
 
             #CROSS VALIDATION
-            CV = CrossValidation(i)
-            pred_i = CV.kFoldCV(X_Test, np.array(Y_Test), knn.predict(X_Test))
+            cv = KFold(n_splits=5, random_state=1, shuffle=True)
             
+            
+            results = cross_val_score(estimator=knn,
+                               X=X_Train,
+                               y=Y_Train,
+                               cv=cv
+                               
+                               )
             #confronto
-            Y_Test=np.array(Y_Test)
+            '''Y_Test=np.array(Y_Test)
             rate=np.mean(pred_i!=Y_Test)
-            error_rate.append(rate)
-            error4k[i]=np.mean(rate)
+            error_rate.append(rate)'''
+            print("Training Accuracy scores", results)
+           
+            ''' "Training Precision scores": results['train_precision'],
+              "Mean Training Precision": results['train_precision'].mean(),
+              "Training Recall scores": results['train_recall'],
+              "Mean Training Recall": results['train_recall'].mean(),
+              "Training F1 scores": results['train_f1'],
+              "Mean Training F1 Score": results['train_f1'].mean(),
+              "Validation Accuracy scores": results['test_accuracy'],
+              "Mean Validation Accuracy": results['test_accuracy'].mean()*100,
+              "Validation Precision scores": results['test_precision'],
+              "Mean Validation Precision": results['test_precision'].mean(),
+              "Validation Recall scores": results['test_recall'],
+              "Mean Validation Recall": results['test_recall'].mean(),
+              "Validation F1 scores": results['test_f1'],
+              "Mean Validation F1 Score": results['test_f1'].mean()
+              }'''
+            
+
+        
 
         #print("Cross Validation Scores: ", pred_i.scores)
         #print("Average CV Score: ", pred_i.scores.mean())

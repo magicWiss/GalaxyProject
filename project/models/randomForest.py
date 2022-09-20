@@ -16,7 +16,7 @@ class RandomForest:
         print("\nAddestramento di un modello RANDOM FOREST")
         #combinare più alberi decisionali nel determinare l'output finale piuttosto che fare affidamento su singoli alberi decisionali.
         #scgliamo 100 alberi
-        model = RandomForestClassifier(n_estimators = 10, criterion='entropy',random_state = 0)
+        model = RandomForestClassifier(n_estimators = 200, criterion='entropy',random_state = 0)
 
         #fit
       
