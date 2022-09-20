@@ -1,5 +1,7 @@
 from matplotlib import  cm, pyplot as plt
 from sklearn.decomposition import PCA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+
 import pandas as pd
 import numpy as np
 
@@ -7,9 +9,11 @@ class ViewData:
 
 
     #method->3 (3d), 2 (2d)
-    def __init__(self, method):
+    def __init__(self, method, dimRedType=None):
 
         self.method=method
+        self.dimRedType=dimRedType
+
 
     def visualize(self,data,labels):
         print("\n\n=================================================")
@@ -57,11 +61,18 @@ class ViewData:
         plt.show()
 
     def visualize3D(self,featuresNorm,labels):
-        pca=PCA(n_components=3)
-        principalComponents=pca.fit_transform(featuresNorm)
-        ex_variance=np.var(principalComponents,axis=0)
-        ex_variance_ratio = ex_variance/np.sum(ex_variance)
-        print("Variance:",ex_variance_ratio)
+        if(self.dimRedType=='PCA' or self.dimRedType==None):
+            pca=PCA(n_components=3)
+            principalComponents=pca.fit_transform(featuresNorm)
+            ex_variance=np.var(principalComponents,axis=0)
+            ex_variance_ratio = ex_variance/np.sum(ex_variance)
+            print("Variance:",ex_variance_ratio)
+        elif(self.dimRedType=='LDA'):
+            lda=LDA(n_components=3)
+            principalComponents=lda.fit_transform(featuresNorm,labels)
+            ex_variance=np.var(principalComponents,axis=0)
+            ex_variance_ratio = ex_variance/np.sum(ex_variance)
+            print("Variance:",ex_variance_ratio)
 
         #dataframe conententi le due componenti estratte
         principalDf = pd.DataFrame(data = principalComponents

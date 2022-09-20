@@ -10,11 +10,21 @@ class Kmeans:
 
     def getBestScore(self, scores):
         print("Miglior score del k-means")
-        minval = max(scores.values())
-        res = [k for k, v in scores.items() if v==minval]
-        print("Score:",minval)
-        print("K used:",res)
-        return res[0]
+        bestK=[0,0]
+        best1,best2=0,0
+        for k in scores:
+            current=scores[k]
+            if current[1]>=best1:
+                bestK.insert(0,current)
+                best2=best1
+                best1=current[1]
+
+            elif current[1]<best1 and current[1]>=best2:
+                bestK.insert(1,current)
+                best2=current[1]
+
+            bestK=bestK[:2]
+
 
 
     def printShilutte(self, scores,best):
@@ -29,22 +39,43 @@ class Kmeans:
         plt.show()
         
     
+    '''def printCluster(self, best):
+        for i in best:
+            model=i[0]
+            label=model.labels_
+            #Getting the Centroids
+            centroids = model.cluster_centers_
+            import numpy as np
+            import pandas as pd
+            u_labels = np.unique(label)
+            
+            #plotting the results:
+            
+            for i in u_labels:
+                plt.scatter(df[label == i , 0] , df[label == i , 1] , label = i)
+            plt.scatter(centroids[:,0] , centroids[:,1] , s = 80, color = 'k)
+            plt.legend()
+            plt.show()'''
 
     def predict(self, data):
         print("Addestramento di un modello kmeans")
         #siluette score per ogni k
         silhoette_score={}              
-        for k in range(2,10):
-            model_kmeans_k = KMeans( n_clusters = k)
+        for k in range(2,6):
+            model_kmeans_k = KMeans( n_clusters = k, init='k-means++', n_init=10, max_iter=6000, tol=0.0001, verbose=0, random_state=None, copy_x=True)
             model_kmeans_k.fit(data)
             labels_k = model_kmeans_k.labels_
             score_k = silhouette_score(data,labels_k)
-            silhoette_score[k] = score_k
+            silhoette_score[k] = (model_kmeans_k,score_k)
             print("Tested kMeans with k = %d\tSS: %5.4f" % (k, score_k))
 
 
         best=self.getBestScore(silhoette_score)
-        self.printShilutte(silhoette_score,best)
+        #self.printShilutte(silhoette_score,best)
         
-       
         
+                
+                
+                
+            
+                

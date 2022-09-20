@@ -10,6 +10,7 @@ import json
 import sys
 from matplotlib import  cm, pyplot as plt
 from keras.applications.vgg16 import VGG16
+from pre_processing.featureExtr import FeatureExtractor
 from pre_processing.preprocessor import Preprocessor
 from pre_processing.PCA import PrincipalComponentAnalysis
 from csv import reader
@@ -69,6 +70,7 @@ def preprocess(preprocessingMethod,X_Data,Y_Data,method,sampleSize):
         
         
         img_path= nameToImage.nameToImage(str(i))       #acquisisco il nome completo della immagine
+        
         
         processedImage=preprocesso.preprocess(img_path) #preprocesso l'immagine e ricavo il vettore delle features
         
@@ -229,7 +231,6 @@ if __name__=="__main__":
     
     
     from sklearn.preprocessing import StandardScaler
-
     
     
     #=======================================================================
@@ -270,28 +271,33 @@ if __name__=="__main__":
     
     #visualizzazione
     if(visualizeData=='True'):
-       viewerData=ViewData(dimensionPlot)
+       viewerData=ViewData(dimensionPlot,'LDA')
        viewerData.visualize(X_TrainingNorm,Y_Training)
 
     #=========================================================================
     #=========================PCA==========================================
     #=======================================================================
-    
+    from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+
     #tramite il file json prendiamo il parametro che ci dice quante componenti vogliamo nella pca
-    my_pca= PrincipalComponentAnalysis(pcaComponents)
+    #my_pca= PrincipalComponentAnalysis(pcaComponents)
+
+    my_LDA=LDA(solver='svd')
+    
         
     #applicazione della pca ai set già normalizzati
-    X_Train_Rid=pd.DataFrame(my_pca.pcaFunction(X_TrainingNorm.fillna(0))).fillna(0) 
+    #X_Train_Rid=pd.DataFrame(my_pca.pcaFunction(X_TrainingNorm.fillna(0))).fillna(0) 
+    X_Train_Rid=pd.DataFrame(my_LDA.fit_transform(X_TrainingNorm.fillna(0),Y_Training)).fillna(0)   
         
-        
-    X_Test_Rid=pd.DataFrame(my_pca.pcaFunctionTest(X_TestNorm.fillna(0))).fillna(0)
-
+    #X_Test_Rid=pd.DataFrame(my_pca.pcaFunctionTest(X_TestNorm.fillna(0))).fillna(0)
+    X_Test_Rid=pd.DataFrame(my_LDA.fit_transform(X_TestNorm.fillna(0),Y_Test)).fillna(0)
+    
     #stampa di tutti i parametri della pca
-    my_pca.printParam()
+    #my_pca.printParam()
     del X_TrainingNorm
     del X_TestNorm
     if(visualizeData=='True'):
-            viewerData=ViewData(dimensionPlot)
+            viewerData=ViewData(dimensionPlot,'LDA')
             viewerData.visualize(X_Train_Rid,Y_Training)        
         
 
