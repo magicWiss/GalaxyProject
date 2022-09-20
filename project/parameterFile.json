@@ -4,15 +4,17 @@
     "preProcessingMethod":1,
     "pcaNComponents":0.90,
 
+    "redComMet":"LDA",
+
     "VGG16":"False",
 
 
     "method":"delta",
-    "sampleSize":0.02,
+    "sampleSize":0.2,
 
     "visualizeData":"False",
     "dimensionPlot":3,
 
-    "model":"svm"
+    "model":"kmeans"
     
 }

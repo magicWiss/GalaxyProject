@@ -275,22 +275,25 @@ if __name__=="__main__":
        viewerData.visualize(X_TrainingNorm,Y_Training)
 
     #=========================================================================
-    #=========================PCA==========================================
+    #=========================PCA or LDA==========================================
     #=======================================================================
     from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 
     #tramite il file json prendiamo il parametro che ci dice quante componenti vogliamo nella pca
-    #my_pca= PrincipalComponentAnalysis(pcaComponents)
+    methodRedComp=data["redComMet"]
 
-    my_LDA=LDA(solver='svd')
+    if (methodRedComp=="LDA" or methodRedComp=='lda'):
+        my_LDA=LDA(solver='svd')
+        X_Train_Rid=pd.DataFrame(my_LDA.fit_transform(X_TrainingNorm.fillna(0),Y_Training)).fillna(0)   
+        X_Test_Rid=pd.DataFrame(my_LDA.fit_transform(X_TestNorm.fillna(0),Y_Test)).fillna(0)
     
-        
+    else:
+        my_pca= PrincipalComponentAnalysis(pcaComponents)
+   
     #applicazione della pca ai set già normalizzati
-    #X_Train_Rid=pd.DataFrame(my_pca.pcaFunction(X_TrainingNorm.fillna(0))).fillna(0) 
-    X_Train_Rid=pd.DataFrame(my_LDA.fit_transform(X_TrainingNorm.fillna(0),Y_Training)).fillna(0)   
-        
-    #X_Test_Rid=pd.DataFrame(my_pca.pcaFunctionTest(X_TestNorm.fillna(0))).fillna(0)
-    X_Test_Rid=pd.DataFrame(my_LDA.fit_transform(X_TestNorm.fillna(0),Y_Test)).fillna(0)
+        X_Train_Rid=pd.DataFrame(my_pca.pcaFunction(X_TrainingNorm.fillna(0))).fillna(0) 
+    
+        X_Test_Rid=pd.DataFrame(my_pca.pcaFunctionTest(X_TestNorm.fillna(0))).fillna(0)
     
     #stampa di tutti i parametri della pca
     #my_pca.printParam()
