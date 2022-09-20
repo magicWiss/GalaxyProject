@@ -10,7 +10,7 @@ class GaussMix:
         pass
     
     def getBestScore(self, scores):
-        print("Miglior score del k-means")
+        print("Miglior score del Gaussian Mixture")
         minval = max(scores.values())
         res = [k for k, v in scores.items() if v==minval]
         print("Score:",minval)

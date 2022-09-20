@@ -67,11 +67,15 @@ class Kmeans:
             labels_k = model_kmeans_k.labels_
             score_k = silhouette_score(data,labels_k)
             silhoette_score[k] = (model_kmeans_k,score_k)
-            print("Tested kMeans with k = %d\tSS: %5.4f" % (k, score_k))
+            
+            if k==2:
+                self.printShilutte(silhoette_score,2)
+
+            #print("Tested kMeans with k = %d\tSS: %5.4f" % (k, score_k))
 
 
-        best=self.getBestScore(silhoette_score)
-        #self.printShilutte(silhoette_score,best)
+        #best=self.getBestScore(silhoette_score)
+        
         
         
                 

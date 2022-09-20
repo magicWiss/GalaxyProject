@@ -43,8 +43,9 @@ class KNN:
             knn.fit(X_Train,np.array(Y_Train))
 
             #CROSS VALIDATION
-            CV = CrossValidation(i)
-            pred_i = CV.kFoldCV(X_Test, np.array(Y_Test), knn.predict(X_Test))
+            CV = CrossValidation(5)
+            pred_i = CV.k_folds.kFoldCV(X_Train, np.array(Y_Train), knn)
+          
             
             #confronto
             Y_Test=np.array(Y_Test)

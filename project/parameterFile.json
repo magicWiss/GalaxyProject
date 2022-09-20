@@ -1,15 +1,16 @@
 {   
     
     "training_perc":0.8,
-    "preProcessingMethod":3,
+    "preProcessingMethod":1,
     "pcaNComponents":0.90,
     "VGG16":"False",
     "method":"delta",
-    "sampleSize":0.02,
+    "sampleSize":0.001,
 
     "visualizeData":"False",
     "dimensionPlot":3,
 
-    "model":"knn"
+    "model":"AdaBoost",
+    "redComMet":"lda"
     
 }
