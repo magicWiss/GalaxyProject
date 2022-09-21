@@ -1,16 +1,16 @@
 {   
     
     "training_perc":0.8,
-    "preProcessingMethod":1,
+    "preProcessingMethod":3,
     "pcaNComponents":0.90,
     "VGG16":"False",
     "method":"delta",
-    "sampleSize":0.001,
+    "sampleSize":0.02,
 
     "visualizeData":"False",
     "dimensionPlot":3,
 
-    "model":"AdaBoost",
-    "redComMet":"lda"
+    "model":"gaussMix",
+    "redComMet": "pca"
     
 }

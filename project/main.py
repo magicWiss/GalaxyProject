@@ -293,7 +293,7 @@ if __name__=="__main__":
     #applicazione della pca ai set già normalizzati
         X_Train_Rid=pd.DataFrame(my_pca.pcaFunction(X_TrainingNorm.fillna(0))).fillna(0) 
         components=my_pca.pca.n_components_
-        test_pca=my_pca = PrincipalComponentAnalysis(components)
+        #test_pca=my_pca = PrincipalComponentAnalysis(components)
         X_Test_Rid=pd.DataFrame(my_pca.pcaFunctionTest(X_TestNorm.fillna(0))).fillna(0)
     
     #stampa di tutti i parametri della pca
