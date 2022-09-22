@@ -17,7 +17,7 @@ class EdgeDetection:
 	# compute the median of the single channel pixel intensities
         gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
         image = cv.GaussianBlur(gray, (3, 3), 0)
-        v = np.median(image)
+        v = 0.1*np.max(image)
         # apply automatic Canny edge detection using the computed median
         lower = int(max(0, (1.0 - sigma) * v))
         upper = int(min(255, (1.0 + sigma) * v))

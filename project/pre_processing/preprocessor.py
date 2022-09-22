@@ -6,14 +6,14 @@
 
 #in ingresso riceve il path della image, in output restituisce la img preprocesssata
 
-from pre_processing.cropImage import CropImage
-from pre_processing.thresholding import ThresholdImg
-from pre_processing.edgeDetection import EdgeDetection
-from pre_processing.colorAdj import ColorBoost
-from pre_processing.featureExtr import FeatureExtractor
+from cropImage import CropImage
+from thresholding import ThresholdImg
+from edgeDetection import EdgeDetection
+from colorAdj import ColorBoost
+from featureExtr import FeatureExtractor
 import cv2 as cv
 from matplotlib import  cm, pyplot as plt
-from pre_processing.flatternImage import FlatternImage
+from flatternImage import FlatternImage
 import numpy as np
 class Preprocessor:
 
@@ -67,7 +67,7 @@ class Preprocessor:
         
         
 
-        return finalImg
+        return finalImg, thresholdImage
 
     def preprocessTwo(self, imgPath):
         img = cv.imread(imgPath)
@@ -103,7 +103,7 @@ class Preprocessor:
        
         
 
-        return finalImg
+        return finalImg, thresholdImage
 
     def preprocess3(self,imgPath):
         img = cv.imread(imgPath)
@@ -147,7 +147,7 @@ class Preprocessor:
 
         #vettorizzazione dell'img trasformandolo da un 3d array (160*160*3) in un 1 d array (76800)
         finalImg=flatImageProcessor.flatterImage(imgEdge)
-        return finalImg
+        return finalImg, thresholdImage, imgEdge
 
     def preprocess4(self, imgpath):
 
@@ -157,18 +157,19 @@ class Preprocessor:
         
 
 if __name__=='__main__':
-    imgPath='./images/training/999875.jpg'
+    imgPath='./images/training/100204.jpg'
     
     processImg=Preprocessor(3)
-    imgProcess, crop, thres=processImg.preprocess(imgPath)
-    titles=['img','cropo','thresh','edge']
+    imgProcess,thres, edge=processImg.preprocess(imgPath)
+    '''titles=['img','cropo','thresh','edge']
     images=[cv.imread(imgPath),crop, thres, imgProcess]
     for i in range(4):
         plt.subplot(1,4,i+1), plt.imshow(images[i], 'gray')
         plt.title(titles[i])
         plt.xticks([]), plt.yticks([])
-
-    plt.imshow(imgProcess,cmap='gray')
+'''
+    plt.imshow(thres)
+    plt.imshow(edge)
     
     plt.show()
    

@@ -13,6 +13,6 @@
     "visualizeData":"False",
     "dimensionPlot":3,
 
-    "model":"kmeans"
+    "model":"RandomForest"
     
 }
