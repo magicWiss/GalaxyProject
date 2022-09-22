@@ -270,38 +270,37 @@ if __name__=="__main__":
     #=======================================================================
     
     #visualizzazione
+
     if(visualizeData=='True'):
-       viewerData=ViewData(dimensionPlot,'LDA')
+       viewerData=ViewData(dimensionPlot,data['redComMet'])
        viewerData.visualize(X_TrainingNorm,Y_Training)
 
     #=========================================================================
-    #=========================PCA or LDA==========================================
+    #=========================PCA==========================================
     #=======================================================================
-    from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
-
+    
     #tramite il file json prendiamo il parametro che ci dice quante componenti vogliamo nella pca
-    methodRedComp=data["redComMet"]
-
-    if (methodRedComp=="LDA" or methodRedComp=='lda'):
-        my_LDA=LDA(solver='svd')
-        X_Train_Rid=pd.DataFrame(my_LDA.fit_transform(X_TrainingNorm.fillna(0),Y_Training)).fillna(0)   
-        X_Test_Rid=pd.DataFrame(my_LDA.transform(X_TestNorm.fillna(0))).fillna(0)
-    
-    else:
+    if data['redComMet']=='pca' or data['redComMet']=='PCA':   
         my_pca= PrincipalComponentAnalysis(pcaComponents)
-   
-    #applicazione della pca ai set già normalizzati
-        X_Train_Rid=pd.DataFrame(my_pca.pcaFunction(X_TrainingNorm.fillna(0))).fillna(0) 
-        components=my_pca.pca.n_components_
-        #test_pca=my_pca = PrincipalComponentAnalysis(components)
-        X_Test_Rid=pd.DataFrame(my_pca.pcaFunctionTest(X_TestNorm.fillna(0))).fillna(0)
-    
+            
+        #applicazione della pca ai set già normalizzati
+        X_Train_Rid=pd.DataFrame(StandardScaler().fit_transform(my_pca.pcaFunction(X_TrainingNorm.fillna(0)))).fillna(0)
+            
+            
+        X_Test_Rid=pd.DataFrame(StandardScaler().fit_transform(my_pca.pcaFunctionTest(X_TestNorm.fillna(0)))).fillna(0)
+
     #stampa di tutti i parametri della pca
-    #my_pca.printParam()
+    else:
+        from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+        my_lda=LDA(solver='svd')
+        X_Train_Rid=pd.DataFrame(StandardScaler().fit_transform(my_lda.fit_transform(X_TrainingNorm.fillna(0),np.ravel(Y_Training)))).fillna(0)  
+        X_Test_Rid=pd.DataFrame(StandardScaler().fit_transform(my_lda.fit_transform(X_TestNorm.fillna(0),np.ravel(Y_Test)))).fillna(0)
+
     del X_TrainingNorm
     del X_TestNorm
     if(visualizeData=='True'):
-            viewerData=ViewData(dimensionPlot,'LDA')
+            viewerData=ViewData(dimensionPlot,data['redComMet'])
+        
             viewerData.visualize(X_Train_Rid,Y_Training)        
         
 

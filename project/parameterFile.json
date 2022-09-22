@@ -1,16 +1,16 @@
 {   
     
     "training_perc":0.8,
-    "preProcessingMethod":2,
+    "preProcessingMethod":1,
     "pcaNComponents":0.90,
     "VGG16":"False",
     "method":"delta",
-    "sampleSize":0.02,
+    "sampleSize":0.002,
 
     "visualizeData":"False",
     "dimensionPlot":3,
 
-    "model":"knn",
-    "redComMet": "lda"
+    "model":"kmeans",
+    "redComMet": "pca"
     
 }

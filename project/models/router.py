@@ -25,7 +25,7 @@ class ModelRouter:
 
         if self.type=='kmeans':
             model=Kmeans()
-            model.predict(X_Training)
+            model.predict(pd.concat([X_Training,X_Test],axis=0))
         
         elif self.type=='knn':
             model=KNN()

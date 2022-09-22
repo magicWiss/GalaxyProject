@@ -31,7 +31,6 @@ class LogisticReg:
         # evaluate a give model using cross-validation
     def evaluate_model(self,model, X_Train, Y_Train,X_Test,Y_Test):
             # define the evaluation procedure
-            #cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=3, random_state=1)
             # evaluate the model
             #scores = cross_val_score(model, X, y, scoring='accuracy', cv=cv, n_jobs=-1)
             model.fit(X_Train,np.ravel(Y_Train))

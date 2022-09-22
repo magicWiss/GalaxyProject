@@ -24,7 +24,7 @@ class KNN:
         best_meanError=np.inf
         for i in range(1,max_k+1):
     
-            knn = KNeighborsClassifier(n_neighbors=i, algorithm='kd_tree')
+            knn = KNeighborsClassifier(n_neighbors=i,weights='distance',metric='minkowski')
             knn.fit(X_Train,np.array(Y_Train))
 
             #CROSS VALIDATION
@@ -58,7 +58,7 @@ class KNN:
         
         minimumK=error_rate.index(min(error_rate))  
         
-        knn = KNeighborsClassifier(n_neighbors=minimumK+1,algorithm='kd_tree')
+        knn = KNeighborsClassifier(n_neighbors=minimumK+1,weights='distance',metric='minkowski')
 
         knn.fit(X_Train,np.ravel(Y_Train))
         
