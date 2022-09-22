@@ -284,17 +284,17 @@ if __name__=="__main__":
         my_pca= PrincipalComponentAnalysis(pcaComponents)
             
         #applicazione della pca ai set già normalizzati
-        X_Train_Rid=pd.DataFrame(StandardScaler().fit_transform(my_pca.pcaFunction(X_TrainingNorm.fillna(0)))).fillna(0)
+        X_Train_Rid=pd.DataFrame((my_pca.pcaFunction(X_TrainingNorm.fillna(0)))).fillna(0)
             
             
-        X_Test_Rid=pd.DataFrame(StandardScaler().fit_transform(my_pca.pcaFunctionTest(X_TestNorm.fillna(0)))).fillna(0)
+        X_Test_Rid=pd.DataFrame((my_pca.pcaFunctionTest(X_TestNorm.fillna(0)))).fillna(0)
 
     #stampa di tutti i parametri della pca
     else:
         from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
         my_lda=LDA(solver='svd')
-        X_Train_Rid=pd.DataFrame(StandardScaler().fit_transform(my_lda.fit_transform(X_TrainingNorm.fillna(0),np.ravel(Y_Training)))).fillna(0)  
-        X_Test_Rid=pd.DataFrame(StandardScaler().fit_transform(my_lda.fit_transform(X_TestNorm.fillna(0),np.ravel(Y_Test)))).fillna(0)
+        X_Train_Rid=pd.DataFrame((my_lda.fit_transform(X_TrainingNorm.fillna(0),np.ravel(Y_Training)))).fillna(0)  
+        X_Test_Rid=pd.DataFrame((my_lda.fit_transform(X_TestNorm.fillna(0),np.ravel(Y_Test)))).fillna(0)
 
     del X_TrainingNorm
     del X_TestNorm
@@ -308,7 +308,7 @@ if __name__=="__main__":
     #=========================================================================
     #=========================MODEL==========================================
     #=======================================================================
-
+'''
     #lettura del modello da utilizzare per il run corrente dal file di parametri
     ML_model=data['model']
 
@@ -320,7 +320,7 @@ if __name__=="__main__":
     print("shape test data: ", Y_Test.shape)
     modelRouter.trainModel(X_Train_Rid,Y_Training,X_Test_Rid,Y_Test)     #probabilmente qui dovremmo passare anche per i modelli supervisionati anche X_test e Y_test
     
-
+'''
 
 
 

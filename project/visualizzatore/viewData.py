@@ -61,7 +61,8 @@ class ViewData:
         plt.show()
 
     def visualize3D(self,featuresNorm,labels):
-        if(self.dimRedType=='PCA' or self.dimRedType==None):
+        principalComponents=None
+        if(self.dimRedType=='PCA' or self.dimRedType=='pca'):
             pca=PCA(n_components=3)
             principalComponents=pca.fit_transform(featuresNorm)
             ex_variance=np.var(principalComponents,axis=0)
